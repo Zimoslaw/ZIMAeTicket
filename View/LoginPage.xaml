@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZIMAeTicket.LoginPage"
+             Title="ZIMAeTicket">
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Image
+            Source="dotnet_bot.png"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            SemanticProperties.Description="Logo ZIMAeTicket" />
+        <Label 
+            Text="PIN:" Style="{StaticResource Headline}"/>
+    </VerticalStackLayout>
+</ContentPage>

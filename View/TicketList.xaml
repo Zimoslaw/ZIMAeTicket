@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:ZIMAeTicket.Converters"
+             xmlns:model="clr-namespace:ZIMAeTicket.Model"
+             xmlns:viewmodel="clr-namespace:ZIMAeTicket.ViewModel"
+             x:DataType="viewmodel:TicketsViewModel"
+             x:Class="ZIMAeTicket.View.TicketList"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource Secondary}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BuyerMaskConverter x:Key="BuyerMaskConverter"/>
+            <converters:UsedBoolConverter x:Key="UsedBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="*,Auto"
+          ColumnSpacing="10"
+          RowDefinitions="Auto,Auto,*,Auto"
+          RowSpacing="10">
+
+        <Label Text="Wybierz grupę" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+        <Entry Placeholder="np. 12345 lub Jan Kowalski" Grid.Row="1" Grid.Column="0"/>
+
+        <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
+                Command="{Binding GetTicketsByPhraseCommand}"
+                IsEnabled="{Binding IsNotBusy}"/>
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+                        ItemsSource="{Binding Tickets}"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Ticket" >
+                    <Border Margin="0, 0, 10, 0" Padding="10" Stroke="{StaticResource Gray100}" Shadow="5 5 10 gray" BackgroundColor="{StaticResource White}">
+                        <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,*" ColumnSpacing="10" >
+                            <Label Text="{Binding OrderId}" Grid.Column="0" Grid.Row="0" FontSize="24"/>
+                            <Label Text="{Binding Buyer, Converter={StaticResource BuyerMaskConverter}}" Grid.Column="1" Grid.Row="0" FontSize="24"/>
+                            <Label FontSize="16" TextColor="{StaticResource Gray500}" Grid.Column="0" Grid.Row="1">
+                                <Label.Text>
+                                    <Binding Path="Id" StringFormat="Bilet nr: {0}"/>
+                                </Label.Text>
+                            </Label>
+                            <Label Text="{Binding Used, Converter={StaticResource UsedBoolConverter}}" Grid.Column="1" Grid.Row="1" HorizontalOptions="End" FontSize="16"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.RowSpan="3"
+                           Grid.ColumnSpan="2"/>
+
+    </Grid>
+</ContentPage>
