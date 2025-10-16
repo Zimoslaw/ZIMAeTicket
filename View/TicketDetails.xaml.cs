@@ -1,15 +1,22 @@
+using System.Threading.Tasks;
+
 namespace ZIMAeTicket.View;
 
 public partial class TicketDetails : ContentPage
 {
+    private readonly TicketDetailsViewModel viewModel;
+
     public TicketDetails(TicketDetailsViewModel viewModel)
 	{
 		InitializeComponent();
+        this.viewModel = viewModel;
 		BindingContext = viewModel;
     }
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnAppearing()
     {
-        base.OnNavigatedTo(args);
+        base.OnAppearing();
+
+        await viewModel.ChangeUsedProperty();
     }
 }

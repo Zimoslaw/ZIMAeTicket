@@ -37,8 +37,11 @@
             <Label Text="{Binding Ticket.DateOfEmail}" Style="{StaticResource Headline}"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="5">
-            <Label Text="{Binding Ticket.Used, Converter={StaticResource UsedBoolConverter}}" Style="{StaticResource Headline}"/>
+            <Label Text="{Binding IsUsed, Converter={StaticResource UsedBoolConverter}}" Style="{StaticResource Headline}"/>
         </VerticalStackLayout>
-        <Button Text="Wykorzystaj bilet" Grid.Row="6"/>
+        <Button Text="Wykorzystaj bilet" Grid.Row="6" IsEnabled="{Binding IsNotUsed}"
+                CommandParameter="{Binding Ticket}"
+                Command="{Binding UseTicketCommand}"/>
+        <ActivityIndicator Grid.Row="6" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
     </Grid>
 </ContentPage>

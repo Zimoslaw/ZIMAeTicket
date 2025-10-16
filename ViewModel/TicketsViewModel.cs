@@ -28,7 +28,7 @@ namespace ZIMAeTicket.ViewModel
         }
 
         [RelayCommand]
-        async Task GetTicketsByPhrase()
+        public async Task GetTicketsByPhrase()
         {
             if (IsBusy) // Nie wyświetlaj na nowo jeżeli widok jest zajety
                 return;
@@ -61,7 +61,11 @@ namespace ZIMAeTicket.ViewModel
         [RelayCommand]
         async Task AddNewTicketTest()
         {
-            await ticketService.AddNewTicket();
+            string[] names = { "Jan Kowalski", "Anna Nowak", "Patryk Święty", "Johannes van Dijk", "Altair Ibn La Ahad" };
+            var rand = new Random();
+            int _orderId = rand.Next(1000, 99999);
+
+            await ticketService.AddNewTicket(_orderId.ToString(), names[rand.Next(0, 5)]);
         }
     }
 }

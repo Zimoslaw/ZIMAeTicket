@@ -49,18 +49,31 @@ namespace ZIMAeTicket.Services
             return new List<Ticket>();
         }
 
-        public async Task<Ticket> GetTicketById(int ticketGroupId, int ticketId)
+        public async Task<bool> UseTicket(Ticket ticket)
         {
-            return ticket;
+            try
+            {
+                ticket.Used = true;
+
+                conn.Update(ticket);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to use ticket {0}: {1}", ticket.Id, ex.Message);
+                return false;
+            }
         }
 
         public async Task AddNewTicket(
-            int ticketGroupId = 1,
+            
             string orderId = "12345",
-            string orderEmail = "test@example.com",
             string buyer = "Jan Kowalski",
+            string orderEmail = "test@example.com",
             string dateOfOrder = "2025-10-14",
-            string dateOfPayment = "2025-10-14")
+            string dateOfPayment = "2025-10-14",
+            int ticketGroupId = 1)
         {
             int result = 0;
 

@@ -34,8 +34,8 @@
                         SelectionMode="None">
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Ticket" >
-                    <Border Margin="0, 0, 10, 0" Padding="10" Stroke="{StaticResource Gray100}" Shadow="5 5 10 gray" BackgroundColor="{StaticResource White}">
+                <DataTemplate x:DataType="model:Ticket">
+                    <Border Margin="0, 0, 10, 0" Padding="10" Stroke="{StaticResource Gray100}" Shadow="2 2 4 gray" BackgroundColor="{StaticResource White}">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding .}"
                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TicketsViewModel}}, Path=GoToDetailsCommand}"/>
@@ -55,6 +55,8 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
+
+        <Button Grid.Row="3"  Text="Dodaj testowy bilet" Command="{Binding AddNewTicketTestCommand}"/>
 
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
