@@ -23,7 +23,7 @@
 
         <Label Text="Wybierz grupę" Grid.Row="0" Grid.ColumnSpan="2"/>
 
-        <Entry Placeholder="np. 12345 lub Jan Kowalski" Grid.Row="1" Grid.Column="0"/>
+        <Entry Placeholder="np. 12345 lub Jan Kowalski" Grid.Row="1" Grid.Column="0" />
 
         <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
                 Command="{Binding GetTicketsByPhraseCommand}"
@@ -36,6 +36,10 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Ticket" >
                     <Border Margin="0, 0, 10, 0" Padding="10" Stroke="{StaticResource Gray100}" Shadow="5 5 10 gray" BackgroundColor="{StaticResource White}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TicketsViewModel}}, Path=GoToDetailsCommand}"/>
+                        </Border.GestureRecognizers>
                         <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,*" ColumnSpacing="10" >
                             <Label Text="{Binding OrderId}" Grid.Column="0" Grid.Row="0" FontSize="24"/>
                             <Label Text="{Binding Buyer, Converter={StaticResource BuyerMaskConverter}}" Grid.Column="1" Grid.Row="0" FontSize="24"/>

@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZIMAeTicket.Services;
+﻿using ZIMAeTicket.Services;
 
 namespace ZIMAeTicket.ViewModel
 {
     public partial class TicketsViewModel : BaseViewModel
     {
-        TicketService ticketService;
-
         public ObservableCollection<Ticket> Tickets { get; } = new();
 
-        public Command GetTicketsByPhraseCommand { get; }
-        public Command AddNewTicketTestCommand { get; }
+        TicketService ticketService;
 
         public TicketsViewModel(TicketService ticketService)
         {
             Title = "Lista biletów";
             this.ticketService = ticketService;
-            GetTicketsByPhraseCommand = new Command(async () => await GetTicketsByPhrase());
-
-            // TEST
-            AddNewTicketTestCommand = new Command(async () => await AddNewTicketTest());
         }
 
+        [RelayCommand]
+        async Task GoToDetails(Ticket ticket)
+        {
+            if (ticket is null)
+                return;
+
+            await Shell.Current.GoToAsync("TicketDetails", true,
+                new Dictionary<string, object>
+                {
+                    {"Ticket", ticket }
+                });
+        }
+
+        [RelayCommand]
         async Task GetTicketsByPhrase()
         {
             if (IsBusy) // Nie wyświetlaj na nowo jeżeli widok jest zajety
@@ -54,7 +55,10 @@ namespace ZIMAeTicket.ViewModel
             }
         }
 
+
+
         // TEST
+        [RelayCommand]
         async Task AddNewTicketTest()
         {
             await ticketService.AddNewTicket();

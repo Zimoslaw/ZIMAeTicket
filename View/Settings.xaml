@@ -5,8 +5,9 @@
              Title="Opcje">
     <Grid RowDefinitions="Auto,*" RowSpacing="20" VerticalOptions="Fill" HorizontalOptions="Center">
         <VerticalStackLayout Grid.Row="0">
-            <Button Text="Synchronizuj bazę danych" Grid.Row="0" Margin="10"/>
-            <Button Text="Pomoc" Grid.Row="1" Margin="10"/>
+            <Button Text="Synchronizuj bazę danych" Margin="10"/>
+            <Button Text="Dodaj nową grupę biletów" Margin="10"/>
+            <Button Text="Pomoc" Margin="10"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" VerticalOptions="End">
             <Button Text="Resetowanie aplikacji" Grid.Row="2" Margin="10, 10, 10, 50" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource Gray600}"/>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:ZIMAeTicket.Converters"
+             xmlns:viewmodel="clr-namespace:ZIMAeTicket.ViewModel"
+             x:Class="ZIMAeTicket.View.TicketDetails"
+             x:DataType="viewmodel:TicketDetailsViewModel">
+    <ContentPage.Title>
+        <Binding Path="Ticket.Id" StringFormat="Bilet nr: {0}"/>
+    </ContentPage.Title>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:UsedBoolConverter x:Key="UsedBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="20" HorizontalOptions="Center">
+        <VerticalStackLayout Grid.Row="0">
+            <Label Text="{Binding Ticket.Buyer}" Style="{StaticResource Headline}"/>
+            <Label Text="{Binding Ticket.OrderEmail}" Style="{StaticResource SubHeadline}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1">
+            <Label Text="Zamówienie nr" Style="{StaticResource SubHeadline}"/>
+            <Label Text="{Binding Ticket.OrderId}" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2">
+            <Label Text="Data zamówienia" Style="{StaticResource SubHeadline}"/>
+            <Label Text="{Binding Ticket.DateOfOrder}" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="3">
+            <Label Text="Opłacono" Style="{StaticResource SubHeadline}"/>
+            <Label Text="{Binding Ticket.DateOfPayment}" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="4">
+            <Label Text="Data wysłania maila z biletem" Style="{StaticResource SubHeadline}"/>
+            <Label Text="{Binding Ticket.DateOfEmail}" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="5">
+            <Label Text="{Binding Ticket.Used, Converter={StaticResource UsedBoolConverter}}" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        <Button Text="Wykorzystaj bilet" Grid.Row="6"/>
+    </Grid>
+</ContentPage>

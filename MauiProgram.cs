@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using ZIMAeTicket.Services;
-using ZIMAeTicket.View;
 
 namespace ZIMAeTicket
 {
@@ -24,6 +23,8 @@ namespace ZIMAeTicket
             builder.Services.AddSingleton<TicketService>();
 
             builder.Services.AddSingleton<TicketsViewModel>();
+
+            builder.Services.AddTransient<TicketDetailsViewModel>();
 
             return builder.Build();
         }
