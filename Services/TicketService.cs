@@ -8,14 +8,14 @@ namespace ZIMAeTicket.Services
 
         public string StatusMessage { get; set; }
 
-        private SQLiteConnection conn;
+        private SQLiteAsyncConnection conn;
 
         private void InitDB()
         {
             if (conn != null)
                 return;
 
-            conn = new SQLiteConnection(_dbPath);
+            conn = new SQLiteAsyncConnection(_dbPath);
         }
 
         public TicketService()
@@ -25,7 +25,7 @@ namespace ZIMAeTicket.Services
             try
             {
                 InitDB();
-                conn.CreateTable<Ticket>();
+                conn.CreateTableAsync<Ticket>();
             }
             catch (Exception ex)
             {
@@ -35,18 +35,20 @@ namespace ZIMAeTicket.Services
 
         Ticket ticket;
 
-        public async Task<List<Ticket>> GetTicketsByPhrase(int ticketGroupId, string searchPhrase = null)
+        public async Task<List<Ticket>> GetTicketsByPhrase(int ticketGroupId, string searchPhrase)
         {
+            if (searchPhrase is null || searchPhrase.Length < 3)
+                return new List<Ticket>();
+
             try
             {
-                return conn.Table<Ticket>().ToList();
+                return await conn.Table<Ticket>().Where(t => t.Buyer.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<Ticket>();
             }
-
-            return new List<Ticket>();
         }
 
         public async Task<bool> UseTicket(Ticket ticket)
@@ -55,7 +57,7 @@ namespace ZIMAeTicket.Services
             {
                 ticket.Used = true;
 
-                conn.Update(ticket);
+                await conn.UpdateAsync(ticket);
 
                 return true;
             }
@@ -75,11 +77,11 @@ namespace ZIMAeTicket.Services
             string dateOfPayment = "2025-10-14",
             int ticketGroupId = 1)
         {
-            int result = 0;
+            Task<int> result;
 
             try
             {
-                result = conn.Insert(new Ticket {
+                result = conn.InsertAsync(new Ticket {
                     TicketGroupId = ticketGroupId,
                     OrderId = orderId,
                     OrderEmail = orderEmail,
@@ -87,7 +89,7 @@ namespace ZIMAeTicket.Services
                     DateOfOrder = dateOfOrder,
                     DateOfPayment = dateOfPayment});
 
-                StatusMessage = string.Format("{0} record(s) added", result);
+                StatusMessage = string.Format("{0} record(s) added", result.Result);
             }
             catch (Exception ex)
             {

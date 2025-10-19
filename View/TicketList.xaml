@@ -23,7 +23,7 @@
 
         <Label Text="Wybierz grupę" Grid.Row="0" Grid.ColumnSpan="2"/>
 
-        <Entry Placeholder="np. 12345 lub Jan Kowalski" Grid.Row="1" Grid.Column="0" />
+        <Entry Text="{Binding SearchPhrase, Mode=TwoWay}" Placeholder="np. jan kowalski" Grid.Row="1" Grid.Column="0" />
 
         <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
                 Command="{Binding GetTicketsByPhraseCommand}"

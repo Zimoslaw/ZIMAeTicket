@@ -6,6 +6,9 @@ namespace ZIMAeTicket.ViewModel
     {
         public ObservableCollection<Ticket> Tickets { get; } = new();
 
+        [ObservableProperty]
+        public string searchPhrase;
+
         TicketService ticketService;
 
         public TicketsViewModel(TicketService ticketService)
@@ -36,7 +39,7 @@ namespace ZIMAeTicket.ViewModel
             try
             {
                 IsBusy = true;
-                var tickets = await ticketService.GetTicketsByPhrase(1);
+                var tickets = await ticketService.GetTicketsByPhrase(1, searchPhrase);
 
                 if (Tickets.Count != 0)
                     Tickets.Clear();
