@@ -26,14 +26,13 @@ namespace ZIMAeTicket.Services
             {
                 InitDB();
                 conn.CreateTableAsync<Ticket>();
+                conn.CreateTableAsync<TicketGroup>();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed initializing database: {ex.Message}");
             }
         }
-
-        Ticket ticket;
 
         public async Task<List<Ticket>> GetTicketsByPhrase(int ticketGroupId, string searchPhrase)
         {
@@ -58,6 +57,8 @@ namespace ZIMAeTicket.Services
                 ticket.Used = true;
 
                 await conn.UpdateAsync(ticket);
+
+                StatusMessage = string.Format("Ticket with ID {0} used.", ticket.Id);
 
                 return true;
             }
@@ -89,11 +90,46 @@ namespace ZIMAeTicket.Services
                     DateOfOrder = dateOfOrder,
                     DateOfPayment = dateOfPayment});
 
-                StatusMessage = string.Format("{0} record(s) added", result.Result);
+                StatusMessage = string.Format("{0} record(s) added.", result.Result);
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to add record(s): {0}", ex.Message);
+            }
+        }
+
+        public async Task<bool> AddNewTicketGroup(int productId, string groupName)
+        {
+            Task<int> result;
+
+            try
+            {
+                if (string.IsNullOrEmpty(groupName) || productId < 1)
+                {
+                    throw new Exception("Cannot add group with empty name or product ID");
+                }
+
+                result = conn.InsertAsync(new TicketGroup
+                {
+                    ProductId = productId,
+                    Name = groupName
+                });
+
+                StatusMessage = string.Format("{0} record(s) added.", result.Result);
+
+                if (result.Result == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add record(s): {0}", ex.Message);
+                return false;
             }
         }
     }

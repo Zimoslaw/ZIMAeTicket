@@ -7,6 +7,8 @@
             InitializeComponent();
 
             Routing.RegisterRoute("TicketDetails", typeof(View.TicketDetails));
+
+            Routing.RegisterRoute("NewTicketGroup", typeof(View.NewTicketGroup));
         }
     }
 }

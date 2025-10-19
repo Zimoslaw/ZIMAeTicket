@@ -11,5 +11,7 @@
             SemanticProperties.Description="Logo ZIMAeTicket" />
         <Label 
             Text="PIN:" Style="{StaticResource Headline}"/>
+        <Entry
+            Keyboard="Numeric"/>
     </VerticalStackLayout>
 </ContentPage>

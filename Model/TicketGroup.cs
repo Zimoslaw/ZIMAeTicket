@@ -15,6 +15,14 @@ namespace ZIMAeTicket.Model
         [Unique]
         public int ProductId { get; set; } // ID produktu w bazie danych Soteshop
         [MaxLength(32)]
-        public string Name { get; set; } = string.Empty; // Dowolna
+        public string Name { get; set; } // Dowolna
+
+        public TicketGroup() { }
+
+        public TicketGroup(int productId, string name)
+        {
+            ProductId = productId;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
     }
 }

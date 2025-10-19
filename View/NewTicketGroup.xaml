@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:ZIMAeTicket.ViewModel"
+             x:Class="ZIMAeTicket.View.NewTicketGroup"
+             x:DataType="viewmodel:NewTicketGroupViewModel"
+             Title="{Binding Title}">
+    <VerticalStackLayout Spacing="10">
+        <Label Text="Nazwa grupy (wydarzenia)"
+               Style="{StaticResource SubHeadline}"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" 
+               Margin="0, 20, 0, 0"/>
+        <Entry Text="{Binding GroupName, Mode=TwoWay}" Placeholder="np. Winter Reggae" MaxLength="32"/>
+        <Label Text="ID produktu w Soteshop"
+               Style="{StaticResource SubHeadline}"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center"
+               Margin="0, 20, 0, 0"/>
+        <Entry Text="{Binding ProductId, Mode=TwoWay}" Placeholder="np. 420" Keyboard="Numeric"/>
+        <Button Text="{Binding AddButtonText}" IsEnabled="{Binding IsNotAdded}" Command="{Binding AddNewTicketGroupCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

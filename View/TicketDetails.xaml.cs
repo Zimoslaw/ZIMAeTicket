@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace ZIMAeTicket.View;
 
 public partial class TicketDetails : ContentPage

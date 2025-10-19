@@ -106,6 +106,9 @@
 	  <MauiXaml Update="View\Mailing.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\NewTicketGroup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\ScanQR.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

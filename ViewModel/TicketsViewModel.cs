@@ -50,7 +50,7 @@ namespace ZIMAeTicket.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed to get tickets: {ex}");
-                await Shell.Current.DisplayAlert("Error", "Unable to get tickets", "OK");
+                await Shell.Current.DisplayAlert("Error", "Nie udało się pobrać biletów", "OK");
             }
             finally
             {

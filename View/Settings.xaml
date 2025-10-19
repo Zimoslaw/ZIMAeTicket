@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:ZIMAeTicket.ViewModel"
+             x:DataType="viewmodel:SettingsViewModel"
              x:Class="ZIMAeTicket.View.Settings"
-             Title="Opcje">
+             Title="{Binding Title}">
     <Grid RowDefinitions="Auto,*" RowSpacing="20" VerticalOptions="Fill" HorizontalOptions="Center">
         <VerticalStackLayout Grid.Row="0">
             <Button Text="Synchronizuj bazę danych" Margin="10"/>
-            <Button Text="Dodaj nową grupę biletów" Margin="10"/>
+            <Button Text="Dodaj nową grupę biletów" Margin="10" Command="{Binding GoToNewTicketGroupCommand}"/>
             <Button Text="Pomoc" Margin="10"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" VerticalOptions="End">
