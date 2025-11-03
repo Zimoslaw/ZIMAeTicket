@@ -161,6 +161,11 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<int> CountTickets()
+        {
+            return await conn.Table<Ticket>().CountAsync();
+        }
+
         // CZYSZCZENIE TABELI BILETÓW
         public async Task<int> ClearTicketsTable()
         {

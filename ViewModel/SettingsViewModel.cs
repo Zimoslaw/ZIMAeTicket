@@ -9,10 +9,13 @@ namespace ZIMAeTicket.ViewModel
 
         TicketService ticketService;
 
-        public SettingsViewModel(TicketService ticketService)
+        SoteshopService soteshopService;
+
+        public SettingsViewModel(TicketService ticketService, SoteshopService soteshopService)
         {
             Title = "Opcje";
             this.ticketService = ticketService;
+            this.soteshopService = soteshopService;
         }
 
         [RelayCommand]
@@ -20,7 +23,25 @@ namespace ZIMAeTicket.ViewModel
         {
             await Shell.Current.GoToAsync("NewTicketGroup");
         }
-        
+
+        [RelayCommand]
+        async Task GetTicketsFromShop()
+        {
+
+            var ticketsCount = await ticketService.CountTickets();
+            Preferences.Set("tickets_count", ticketsCount.ToString());
+            Preferences.Default.Set("last_db_sync", DateTime.Now);
+        }
+
+        [RelayCommand]
+        async Task SyncTicketsDatbase()
+        {
+
+            var ticketsCount = await ticketService.CountTickets();
+            Preferences.Set("tickets_count", ticketsCount.ToString());
+            Preferences.Default.Set("last_db_sync", DateTime.Now);
+        }
+
         // RESETOWANIE APLIKACJI
         [RelayCommand]
         async Task ResetApplication()

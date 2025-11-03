@@ -9,7 +9,7 @@
             Spacing="25">
         <Image
                 Source="dotnet_bot.png"
-                HeightRequest="185"
+                HeightRequest="150"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a hovercraft number nine" />
 
@@ -18,22 +18,23 @@
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
-        <Label
-                Text="Ostatnia synchronizacja bazy:"
-                FontSize="16"
-                SemanticProperties.Description="Data ostatnie synchronizacja lokalnej bazy biletów z bazą serwera" />
+        <VerticalStackLayout HorizontalOptions="Center">
+            <Label Text="Ostatnia synchronizacja bazy biletów:" Style="{StaticResource SubHeadline}" />
+            <Label Text="Nigdy" x:Name="LastDBSyncLabel" Style="{StaticResource Headline}" />
+        </VerticalStackLayout>
 
-        <Label
-                Text="Liczba biletów w bazie:"
-            FontSize="16"
-                SemanticProperties.Description="Liczba biletów obecnych w lokalnej bazie" />
+        <VerticalStackLayout HorizontalOptions="Center">
+            <Label Text="Liczba biletów w bazie:" Style="{StaticResource SubHeadline}" />
+            <Label Text="0" x:Name="TicketsCountLabel" Style="{StaticResource Headline}"/>
+        </VerticalStackLayout>
+        
 
         <Button
                 x:Name="CounterBtn"
                 Text="Skanuj bilet" 
                 SemanticProperties.Hint="Przejdź do skanowania kodu QR biletu"
                 IsVisible="{OnPlatform Android=True, WinUI=false}"
-                Routing.Route="ScanQR"
+                Clicked="GotoScanQR"
                 HorizontalOptions="Fill" />
     </VerticalStackLayout>
 

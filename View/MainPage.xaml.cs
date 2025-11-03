@@ -2,23 +2,32 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            count++;
+            base.OnAppearing();
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+            TicketsCountLabel.Text = Preferences.Get("tickets_count", "0");
+
+            DateTime lastDBSyncDateTime = Preferences.Get("last_db_sync", DateTime.MinValue);
+            if (lastDBSyncDateTime != DateTime.MinValue)
+                LastDBSyncLabel.Text = lastDBSyncDateTime.ToString();
             else
-                CounterBtn.Text = $"Clicked {count} times";
+                LastDBSyncLabel.Text = "Nigdy";
+        }
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private async void GotoScanQR(object? sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ScanQR");
+        }
+
+        private void CounterBtn_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }
