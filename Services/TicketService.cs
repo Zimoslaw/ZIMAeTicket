@@ -41,7 +41,9 @@ namespace ZIMAeTicket.Services
 
             try
             {
-                return await conn.Table<Ticket>().Where(t => t.Buyer.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
+                return await conn.Table<Ticket>().Where(t =>
+                                                        t.TicketGroupId == ticketGroupId &&
+                                                        t.Buyer.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -76,7 +78,7 @@ namespace ZIMAeTicket.Services
             string orderEmail = "test@example.com",
             string dateOfOrder = "2025-10-14",
             string dateOfPayment = "2025-10-14",
-            int ticketGroupId = 1)
+            int ticketGroupId = 2)
         {
             Task<int> result;
 
@@ -131,6 +133,44 @@ namespace ZIMAeTicket.Services
                 StatusMessage = string.Format("Failed to add record(s): {0}", ex.Message);
                 return false;
             }
+        }
+
+        public async Task<List<TicketGroup>> GetAllTicketGroups()
+        {
+            try
+            {
+                return await conn.Table<TicketGroup>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<TicketGroup>();
+            }
+        }
+
+        public async Task<TicketGroup> GetTicketGroupByName(string name)
+        {
+            try
+            {
+                return await conn.Table<TicketGroup>().Where(g => g.Name.ToLower().Contains(name.ToLower())).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null;
+            }
+        }
+
+        // CZYSZCZENIE TABELI BILETÓW
+        public async Task<int> ClearTicketsTable()
+        {
+            return await conn.ExecuteAsync("DELETE FROM tickets");
+        }
+
+        // CZYSZCZENIE TABELI GRUP BILETÓW
+        public async Task<int> ClearTicketGroupTable()
+        {
+            return await conn.ExecuteAsync("DELETE FROM ticket_groups");
         }
     }
 }

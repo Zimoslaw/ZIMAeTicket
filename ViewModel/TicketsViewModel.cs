@@ -1,4 +1,5 @@
 ﻿using ZIMAeTicket.Services;
+using Microsoft.Maui.Controls;
 
 namespace ZIMAeTicket.ViewModel
 {
@@ -9,12 +10,46 @@ namespace ZIMAeTicket.ViewModel
         [ObservableProperty]
         public string searchPhrase;
 
+        [ObservableProperty]
+        public string chosenGroupName;
+
+        [ObservableProperty]
+        public bool isGroupChosen;
+
         TicketService ticketService;
 
         public TicketsViewModel(TicketService ticketService)
         {
             Title = "Lista biletów";
+            ChosenGroupName = "> Wybierz grupę";
+            IsGroupChosen = false;
             this.ticketService = ticketService;
+        }
+
+        [RelayCommand]
+        async Task DisplayGroupChoicePopUp()
+        {
+            List<TicketGroup> groups = await ticketService.GetAllTicketGroups();
+
+            string[] choices = new string[groups.Count];
+
+            for (int i = 0; i < groups.Count; i++)
+            {
+                choices[i] = groups[i].Name;
+            }
+
+            string choice = await Shell.Current.DisplayActionSheet("Wybierz grupę:", "Anuluj", null, choices);
+
+            if (string.IsNullOrEmpty(choice) || choice == "Anuluj")
+            {
+                IsGroupChosen = false;
+                ChosenGroupName = "> Wybierz grupę";
+            }    
+            else
+            {
+                IsGroupChosen = true;
+                ChosenGroupName = choice;
+            }
         }
 
         [RelayCommand]
@@ -39,7 +74,10 @@ namespace ZIMAeTicket.ViewModel
             try
             {
                 IsBusy = true;
-                var tickets = await ticketService.GetTicketsByPhrase(1, searchPhrase);
+
+                var ticketGroup = await ticketService.GetTicketGroupByName(ChosenGroupName);
+
+                var tickets = await ticketService.GetTicketsByPhrase(ticketGroup.Id, SearchPhrase);
 
                 if (Tickets.Count != 0)
                     Tickets.Clear();
@@ -50,7 +88,7 @@ namespace ZIMAeTicket.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed to get tickets: {ex}");
-                await Shell.Current.DisplayAlert("Error", "Nie udało się pobrać biletów", "OK");
+                await Shell.Current.DisplayAlert("Błąd", "Nie udało się pobrać biletów", "OK");
             }
             finally
             {

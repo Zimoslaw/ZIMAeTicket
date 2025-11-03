@@ -6,13 +6,19 @@
              x:Class="ZIMAeTicket.View.Settings"
              Title="{Binding Title}">
     <Grid RowDefinitions="Auto,*" RowSpacing="20" VerticalOptions="Fill" HorizontalOptions="Center">
-        <VerticalStackLayout Grid.Row="0">
-            <Button Text="Synchronizuj bazę danych" Margin="10"/>
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center">
+            <Button Text="Pobierz bilety ze sklepu" IsVisible="{OnPlatform Android=false, WinUI=true}" Margin="10"/>
+                <Button Text="Synchronizuj bazę biletów" IsVisible="{OnPlatform Android=true, WinUI=false}" Margin="10"/>
+            <VerticalStackLayout Margin="10, 0, 10, 20" HorizontalOptions="Center">
+                <Label Text="Pobierz od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=false, WinUI=true}"/>
+                <Label Text="Synchronizuj od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=true, WinUI=false}"/>
+                <DatePicker Date="{Binding QueryDate}"/>
+            </VerticalStackLayout>
             <Button Text="Dodaj nową grupę biletów" Margin="10" Command="{Binding GoToNewTicketGroupCommand}"/>
             <Button Text="Pomoc" Margin="10"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" VerticalOptions="End">
-            <Button Text="Resetowanie aplikacji" Grid.Row="2" Margin="10, 10, 10, 50" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource Gray600}"/>
+            <Button Text="Resetowanie aplikacji" Grid.Row="2" Margin="10, 10, 10, 50" Command="{Binding ResetApplicationCommand}" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource Gray600}"/>
         </VerticalStackLayout>
         
     </Grid>

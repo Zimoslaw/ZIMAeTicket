@@ -6,8 +6,7 @@
              xmlns:viewmodel="clr-namespace:ZIMAeTicket.ViewModel"
              x:DataType="viewmodel:TicketsViewModel"
              x:Class="ZIMAeTicket.View.TicketList"
-             Title="{Binding Title}"
-             BackgroundColor="{StaticResource Secondary}">
+             Title="{Binding Title}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,15 +20,21 @@
           RowDefinitions="Auto,Auto,*,Auto"
           RowSpacing="10">
 
-        <Label Text="Wybierz grupę" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <HorizontalStackLayout Grid.ColumnSpan="2" Grid.Row="0" Padding="10">
+            <HorizontalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding DisplayGroupChoicePopUpCommand}"/>
+            </HorizontalStackLayout.GestureRecognizers>
+            <Label Text="{Binding ChosenGroupName}" FontSize="24"/>
+        </HorizontalStackLayout>
+
 
         <Entry Text="{Binding SearchPhrase, Mode=TwoWay}" Placeholder="np. jan kowalski" Grid.Row="1" Grid.Column="0" />
 
         <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
                 Command="{Binding GetTicketsByPhraseCommand}"
-                IsEnabled="{Binding IsNotBusy}"/>
+                IsEnabled="{Binding IsGroupChosen}"/>
 
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Secondary}"
                         ItemsSource="{Binding Tickets}"
                         SelectionMode="None">
 
@@ -60,9 +65,8 @@
 
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="FillAndExpand"
-                           VerticalOptions="CenterAndExpand"
-                           Grid.RowSpan="3"
+                           MaximumHeightRequest="100"
+                           Grid.Row="2"
                            Grid.ColumnSpan="2"/>
 
     </Grid>

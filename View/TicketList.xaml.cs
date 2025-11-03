@@ -14,7 +14,5 @@ public partial class TicketList : ContentPage
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-
-        await viewModel.GetTicketsByPhrase();
     }
 }
