@@ -10,10 +10,8 @@ namespace ZIMAeTicket.Model
     [Table("ticket_groups")]
     public class TicketGroup
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; } // Lokalne ID grupy
-        [Unique]
-        public int ProductId { get; set; } // ID produktu w bazie danych Soteshop
+        [PrimaryKey]
+        public int Id { get; set; } // ID produktu w bazie danych Soteshop i jednocześnie ID grupy biletów
         [Unique, MaxLength(32)]
         public string Name { get; set; } // Dowolna
 
@@ -21,7 +19,7 @@ namespace ZIMAeTicket.Model
 
         public TicketGroup(int productId, string name)
         {
-            ProductId = productId;
+            Id = productId;
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
     }

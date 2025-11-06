@@ -30,6 +30,12 @@ namespace ZIMAeTicket.ViewModel
             if (IsBusy) // Nie wyświetlaj na nowo jeżeli widok jest zajety
                 return;
 
+            if (string.IsNullOrEmpty(groupName) || string.IsNullOrEmpty(productId))
+            {
+                await Shell.Current.DisplayAlert("Błąd w formularzu", $"Uzupełnij wszystkie pola", "OK");
+                return;
+            }
+
             try
             {
                 IsBusy = true;

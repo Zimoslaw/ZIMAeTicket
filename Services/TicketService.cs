@@ -71,26 +71,13 @@ namespace ZIMAeTicket.Services
             }
         }
 
-        public async Task AddNewTicket(
-            
-            string orderId = "12345",
-            string buyer = "Jan Kowalski",
-            string orderEmail = "test@example.com",
-            string dateOfOrder = "2025-10-14",
-            string dateOfPayment = "2025-10-14",
-            int ticketGroupId = 2)
+        public async Task AddNewTicket(Ticket ticket)
         {
             Task<int> result;
 
             try
             {
-                result = conn.InsertAsync(new Ticket {
-                    TicketGroupId = ticketGroupId,
-                    OrderId = orderId,
-                    OrderEmail = orderEmail,
-                    Buyer = buyer,
-                    DateOfOrder = dateOfOrder,
-                    DateOfPayment = dateOfPayment});
+                result = conn.InsertAsync(ticket);
 
                 StatusMessage = string.Format("{0} record(s) added.", result.Result);
             }
@@ -113,7 +100,7 @@ namespace ZIMAeTicket.Services
 
                 result = conn.InsertAsync(new TicketGroup
                 {
-                    ProductId = productId,
+                    Id = productId,
                     Name = groupName
                 });
 

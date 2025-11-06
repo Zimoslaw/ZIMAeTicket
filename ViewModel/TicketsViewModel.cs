@@ -94,18 +94,5 @@ namespace ZIMAeTicket.ViewModel
                 IsBusy = false;
             }
         }
-
-
-
-        // TEST
-        [RelayCommand]
-        async Task AddNewTicketTest()
-        {
-            string[] names = { "Jan Kowalski", "Anna Nowak", "Patryk Święty", "Johannes van Dijk", "Altair Ibn La Ahad" };
-            var rand = new Random();
-            int _orderId = rand.Next(1000, 99999);
-
-            await ticketService.AddNewTicket(_orderId.ToString(), names[rand.Next(0, 5)]);
-        }
     }
 }

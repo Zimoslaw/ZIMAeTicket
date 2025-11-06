@@ -42,19 +42,22 @@ namespace ZIMAeTicket.Model
             Buyer = buyer ?? throw new ArgumentNullException(nameof(buyer));
             DateOfOrder = dateOfOrder ?? throw new ArgumentNullException(nameof(dateOfOrder));
             DateOfPayment = dateOfPayment ?? throw new ArgumentNullException(nameof(dateOfPayment));
+        }
 
+        public string CalculateHash()
+        {
             // Creating Hash of a ticket
-            string ticketJSON = $"""
-                                "Ticket": 
-                                "[Id": {Id}, 
-                                "TicketGroupId": {TicketGroupId}, 
-                                "OrderId": "{OrderId}", 
-                                "OrderEmail": "{OrderEmail}", 
-                                "Buyer": "{Buyer}", 
-                                "DateOfOrder": "{DateOfOrder}", 
-                                "DateOfPayment": "{DateOfPayment}"]
-                                """;
+            string ticketJSON = "\"Ticket\": {" +
+                                $"\"Id\": {Id}, " +
+                                $"\"TicketGroupId\": {TicketGroupId}, " +
+                                $"\"OrderId\": \"{OrderId}\", " +
+                                $"\"OrderEmail\": \"{OrderEmail}\", " +
+                                $"\"Buyer\": \"{Buyer}\", " +
+                                $"\"DateOfOrder\": \"{DateOfOrder}\", " +
+                                $"\"DateOfPayment\": \"{DateOfPayment}\"]";
             Hash = CryptoUtils.Hash(ticketJSON);
+
+            return Hash;
         }
     }
 }

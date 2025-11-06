@@ -61,8 +61,6 @@
 
         </CollectionView>
 
-        <Button Grid.Row="3"  Text="Dodaj testowy bilet" Command="{Binding AddNewTicketTestCommand}"/>
-
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            MaximumHeightRequest="100"
