@@ -36,7 +36,7 @@ namespace ZIMAeTicket.Services
                     new KeyValuePair<string, string>("id", productId.ToString())
                 ]);
 
-                var response = await _httpClient.PostAsync(AccessStrings.GetTicketsByDateApiURL, postData);
+                var response = await _httpClient.PostAsync(AccessStrings.GetTicketsFromOrdersByDateApiURL, postData);
 
                 response.EnsureSuccessStatusCode();
                 StatusMessage = "OK (http 200)";
@@ -54,9 +54,50 @@ namespace ZIMAeTicket.Services
                 return new List<Ticket>();
             }
         }
+
+        public async Task<bool> PutTicketIntoRemoteDatabase(Ticket ticket)
+        {
+            try
+            {
+                FormUrlEncodedContent postData = new(
+                [
+                    new KeyValuePair<string, string>("apikey", AccessStrings.ApiKey),
+                    new KeyValuePair<string, string>("id", ticket.Id.ToString()),
+                    new KeyValuePair<string, string>("ticketgroupid", ticket.TicketGroupId.ToString()),
+                    new KeyValuePair<string, string>("orderid", ticket.OrderId),
+                    new KeyValuePair<string, string>("orderemail", ticket.OrderEmail),
+                    new KeyValuePair<string, string>("buyer", ticket.Buyer),
+                    new KeyValuePair<string, string>("dateoforder", ticket.DateOfOrder),
+                    new KeyValuePair<string, string>("dateofpayment", ticket.DateOfPayment),
+                    new KeyValuePair<string, string>("dateofemail", ticket.DateOfEmail),
+                    new KeyValuePair<string, string>("hash", ticket.Hash),
+                ]);
+
+                var response = await _httpClient.PostAsync(AccessStrings.PutTicketApiURL, postData);
+
+                response.EnsureSuccessStatusCode();
+                StatusMessage = "OK (http 200)";
+
+                var result = await response.Content.ReadAsStreamAsync();
+
+                Debug.WriteLine(result);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error putting data via API: {ex.Message}";
+                return false;
+            }
+        }
     }
 
     public class GetTicketsFromShopByDateResponse
+    {
+        public List<Ticket> Tickets { get; set; }
+    }
+
+    public class GetTicketsByDateResponse
     {
         public List<Ticket> Tickets { get; set; }
     }

@@ -47,10 +47,12 @@ namespace ZIMAeTicket.ViewModel
 
                     foreach (Ticket ticket in tickets)
                     {
-                        await ticketService.AddNewTicket(ticket);
+                        for (int i = 0; i < ticket.Quantity; i++)
+                        {
+                            await ticketService.AddNewTicket(ticket);
+                            newTicketsCount++;
+                        } 
                     }
-
-                    newTicketsCount += tickets.Count;
                 }
 
                 // Stats update
