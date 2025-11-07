@@ -64,16 +64,13 @@ namespace ZIMAeTicket.ViewModel
                 if (newTicketsCount > 0)
                     await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
                 else
-                    await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status: {soteshopService.StatusMessage}", "OK");
+                    await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status API: {soteshopService.StatusMessage}", "OK");
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Błąd", $"Błąd przy dodawaniu nowych biletów: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert("Błąd", $"Błąd przy dpobieraniu biletów ze sklepu: {ex.Message}", "OK");
             }
-            finally 
-            {
-                IsBusy = false;
-            }
+            finally { IsBusy = false; }
         }
 
         [RelayCommand]
@@ -81,11 +78,42 @@ namespace ZIMAeTicket.ViewModel
         {
             IsBusy = true;
 
-            var ticketsCount = await ticketService.CountTickets();
-            Preferences.Set("tickets_count", ticketsCount.ToString());
-            Preferences.Default.Set("last_db_sync", DateTime.Now);
+            try
+            {
+                int newTicketsCount = 0;
 
-            IsBusy = false;
+                var groups = await ticketService.GetAllTicketGroups();
+
+                if (groups.Count == 0)
+                {
+                    await Shell.Current.DisplayAlert("Synchronizacja biletów", $"Brak grup biletów. Dodaj przynajmniej jedną grupę.", "OK");
+                    return;
+                }
+
+                List<Ticket> tickets = await soteshopService.GetTicketsByDate(QueryDate);
+
+                foreach (Ticket ticket in tickets)
+                {
+                    await ticketService.AddNewTicket(ticket);
+                    newTicketsCount++;
+                }
+
+                // Stats update
+                var ticketsCount = await ticketService.CountTickets();
+                Preferences.Set("tickets_count", ticketsCount.ToString());
+                // Last sync date update
+                Preferences.Default.Set("last_db_sync", DateTime.Now);
+
+                if (newTicketsCount > 0)
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
+                else
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status API: {soteshopService.StatusMessage}", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Błąd", $"Błąd przy synchronizacji bazy biletów: {ex.Message}", "OK");
+            }
+            finally { IsBusy = false; }
         }
 
         // RESETOWANIE APLIKACJI

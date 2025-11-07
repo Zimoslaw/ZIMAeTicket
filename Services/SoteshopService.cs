@@ -44,7 +44,7 @@ namespace ZIMAeTicket.Services
                 var ticketsData = await response.Content.ReadAsStreamAsync();
 
                 // Response serialization
-                var responseTickets = JsonSerializer.Deserialize<GetTicketsFromShopByDateResponse>(ticketsData, _jsonDeserializeOptions);
+                var responseTickets = JsonSerializer.Deserialize<GetTicketsByDateResponse>(ticketsData, _jsonDeserializeOptions);
 
                 return responseTickets.Tickets;
             }
@@ -90,11 +90,35 @@ namespace ZIMAeTicket.Services
                 return false;
             }
         }
-    }
 
-    public class GetTicketsFromShopByDateResponse
-    {
-        public List<Ticket> Tickets { get; set; }
+        public async Task<List<Ticket>> GetTicketsByDate(DateTime dateFrom)
+        {
+            try
+            {
+                FormUrlEncodedContent postData = new(
+                [
+                    new KeyValuePair<string, string>("apikey", AccessStrings.ApiKey),
+                    new KeyValuePair<string, string>("datetime", dateFrom.ToString("yyyy-MM-dd HH:mm:ss"))
+                ]);
+
+                var response = await _httpClient.PostAsync(AccessStrings.GetTicketsByDateApiURL, postData);
+
+                response.EnsureSuccessStatusCode();
+                StatusMessage = "OK (http 200)";
+
+                var ticketsData = await response.Content.ReadAsStreamAsync();
+
+                // Response serialization
+                var responseTickets = JsonSerializer.Deserialize<GetTicketsByDateResponse>(ticketsData, _jsonDeserializeOptions);
+
+                return responseTickets.Tickets;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error getting data from API: {ex.Message}";
+                return new List<Ticket>();
+            }
+        }
     }
 
     public class GetTicketsByDateResponse
