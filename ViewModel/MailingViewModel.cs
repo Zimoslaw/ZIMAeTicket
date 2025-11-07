@@ -57,8 +57,8 @@ namespace ZIMAeTicket.ViewModel
                 PendingTicketsCount = PendingTicketsCount - SentTicketsCount;
                 Preferences.Set("pending_tickets", PendingTicketsCount);
                 SentTicketsCount = 0;
-                lastMailingDateTime = DateTime.Now;
-                Preferences.Set("last_mailing", lastMailingDateTime);
+                LastMailingDateTime = DateTime.Now;
+                Preferences.Set("last_mailing", LastMailingDateTime);
                 IsBusy = false;
             }
         }

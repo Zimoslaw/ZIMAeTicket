@@ -136,8 +136,10 @@ namespace ZIMAeTicket.ViewModel
                 var clearTicketsResult = await ticketService.ClearTicketsTable();
 
                 // Stats update
-                var ticketsCount = await ticketService.CountTickets();
-                Preferences.Set("tickets_count", ticketsCount.ToString());
+                Preferences.Set("tickets_count", 0);
+                Preferences.Set("pending_tickets", 0);
+                Preferences.Set("last_db_sync", DateTime.MinValue);
+                Preferences.Set("last_mailing", DateTime.MinValue);
 
                 await Shell.Current.DisplayAlert("Resetowanie", $"Usunięto grup: {clearTicketGroupResult}\nUsunięto biletów: {clearTicketsResult}", "OK");
             }

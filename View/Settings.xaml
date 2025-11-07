@@ -6,18 +6,16 @@
              x:Class="ZIMAeTicket.View.Settings"
              Title="{Binding Title}">
     <Grid RowDefinitions="Auto,*" RowSpacing="20" VerticalOptions="Fill" HorizontalOptions="Center">
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                   IsRunning="{Binding IsBusy}"
-                   MaximumHeightRequest="200"
-                   Grid.RowSpan="2"/>
-        
         <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center">
             <Button Text="Pobierz bilety ze sklepu" Command="{Binding GetTicketsFromShopCommand}" IsVisible="{OnPlatform Android=false, WinUI=true}" Margin="10"/>
             <Button Text="Synchronizuj bazę biletów" Command="{Binding SyncTicketsDatabaseCommand}" IsVisible="{OnPlatform Android=true, WinUI=false}" Margin="10"/>
             <VerticalStackLayout Margin="10, 0, 10, 20" HorizontalOptions="Center">
                 <Label Text="Pobierz od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=false, WinUI=true}"/>
                 <Label Text="Synchronizuj od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=true, WinUI=false}"/>
-                <DatePicker Date="{Binding QueryDate}"/>
+                <HorizontalStackLayout>
+                    <DatePicker Date="{Binding QueryDate}"/>
+                    <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Margin="10, 0, 0, 0"/>
+                </HorizontalStackLayout>
             </VerticalStackLayout>
             <Button Text="Dodaj nową grupę biletów" Margin="10" Command="{Binding GoToNewTicketGroupCommand}"/>
             <Button Text="Pomoc" Margin="10"/>
