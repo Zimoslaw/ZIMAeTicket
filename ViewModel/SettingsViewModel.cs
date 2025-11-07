@@ -58,6 +58,8 @@ namespace ZIMAeTicket.ViewModel
                 // Stats update
                 var ticketsCount = await ticketService.CountTickets();
                 Preferences.Set("tickets_count", ticketsCount.ToString());
+                var pendingTicketsCount = await ticketService.CountPendingTickets();
+                Preferences.Set("pending_tickets", pendingTicketsCount);
                 // Last sync date update
                 Preferences.Default.Set("last_db_sync", DateTime.Now);
 
@@ -68,7 +70,7 @@ namespace ZIMAeTicket.ViewModel
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Błąd", $"Błąd przy dpobieraniu biletów ze sklepu: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert("Błąd", $"Błąd przy pobieraniu biletów ze sklepu: {ex.Message}", "OK");
             }
             finally { IsBusy = false; }
         }

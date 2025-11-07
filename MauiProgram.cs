@@ -28,6 +28,8 @@ namespace ZIMAeTicket
 
             builder.Services.AddSingleton<SettingsViewModel>();
 
+            builder.Services.AddSingleton<MailingViewModel>();
+
             builder.Services.AddTransient<TicketDetailsViewModel>();
 
             builder.Services.AddTransient<NewTicketGroupViewModel>();

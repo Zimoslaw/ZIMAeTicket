@@ -13,7 +13,7 @@
         
         <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center">
             <Button Text="Pobierz bilety ze sklepu" Command="{Binding GetTicketsFromShopCommand}" IsVisible="{OnPlatform Android=false, WinUI=true}" Margin="10"/>
-            <Button Text="Synchronizuj bazę biletów" Command="{Binding SyncTicketsDatabase}" IsVisible="{OnPlatform Android=true, WinUI=false}" Margin="10"/>
+            <Button Text="Synchronizuj bazę biletów" Command="{Binding SyncTicketsDatabaseCommand}" IsVisible="{OnPlatform Android=true, WinUI=false}" Margin="10"/>
             <VerticalStackLayout Margin="10, 0, 10, 20" HorizontalOptions="Center">
                 <Label Text="Pobierz od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=false, WinUI=true}"/>
                 <Label Text="Synchronizuj od:" Style="{StaticResource SubHeadline}" IsVisible="{OnPlatform Android=true, WinUI=false}"/>

@@ -52,6 +52,19 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<List<Ticket>> GetTicketsToSend()
+        {
+            try
+            {
+                return await conn.Table<Ticket>().Where(t => t.DateOfEmail == string.Empty).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<Ticket>();
+            }
+        }
+
         public async Task<bool> UseTicket(Ticket ticket)
         {
             try
@@ -151,6 +164,11 @@ namespace ZIMAeTicket.Services
         public async Task<int> CountTickets()
         {
             return await conn.Table<Ticket>().CountAsync();
+        }
+
+        public async Task<int> CountPendingTickets()
+        {
+            return await conn.Table<Ticket>().Where(t => t.DateOfEmail == string.Empty).CountAsync();
         }
 
         // CZYSZCZENIE TABELI BILETÓW
