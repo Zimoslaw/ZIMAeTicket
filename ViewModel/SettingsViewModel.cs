@@ -27,6 +27,13 @@ namespace ZIMAeTicket.ViewModel
         [RelayCommand]
         async Task GetTicketsFromShop()
         {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Pobieranie biletów", $"Brak połączenia z Internetem. Połącz się z Wi-Fi lub włącz dane komórkowe", "OK");
+                return;
+            }
+
             IsBusy = true;
 
             try
@@ -35,7 +42,7 @@ namespace ZIMAeTicket.ViewModel
 
                 var groups = await ticketService.GetAllTicketGroups();
 
-                if (groups.Count == 0)
+                if (groups.Count < 1)
                 {
                     await Shell.Current.DisplayAlert("Pobieranie biletów", $"Brak grup biletów. Dodaj przynajmniej jedną grupę.", "OK");
                     return;
@@ -47,6 +54,10 @@ namespace ZIMAeTicket.ViewModel
 
                     foreach (Ticket ticket in tickets)
                     {
+                        // checking if tickets from that order and group were already downloaded
+                        if (await ticketService.OrderExistsInDatabase(ticket.OrderId, ticket.TicketGroupId))
+                            continue;
+
                         for (int i = 0; i < ticket.Quantity; i++)
                         {
                             await ticketService.AddNewTicket(ticket);
@@ -57,11 +68,14 @@ namespace ZIMAeTicket.ViewModel
 
                 // Stats update
                 var ticketsCount = await ticketService.CountTickets();
-                Preferences.Set("tickets_count", ticketsCount.ToString());
+                Preferences.Default.Set("tickets_count", ticketsCount);
                 var pendingTicketsCount = await ticketService.CountPendingTickets();
-                Preferences.Set("pending_tickets", pendingTicketsCount);
+                Preferences.Default.Set("pending_tickets", pendingTicketsCount);
                 // Last sync date update
-                Preferences.Default.Set("last_db_sync", DateTime.Now);
+                QueryDate = DateTime.Now;
+                Preferences.Default.Set("last_db_sync", QueryDate);
+
+                IsBusy = false;
 
                 if (newTicketsCount > 0)
                     await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
@@ -72,12 +86,18 @@ namespace ZIMAeTicket.ViewModel
             {
                 await Shell.Current.DisplayAlert("Błąd", $"Błąd przy pobieraniu biletów ze sklepu: {ex.Message}", "OK");
             }
-            finally { IsBusy = false; }
         }
 
         [RelayCommand]
         async Task SyncTicketsDatabase()
         {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            if (accessType != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Synchronizacja biletów", $"Brak połączenia z Internetem. Połącz się z Wi-Fi lub włącz dane komórkowe", "OK");
+                return;
+            }
+
             IsBusy = true;
 
             try
@@ -86,7 +106,7 @@ namespace ZIMAeTicket.ViewModel
 
                 var groups = await ticketService.GetAllTicketGroups();
 
-                if (groups.Count == 0)
+                if (groups.Count < 1)
                 {
                     await Shell.Current.DisplayAlert("Synchronizacja biletów", $"Brak grup biletów. Dodaj przynajmniej jedną grupę.", "OK");
                     return;
@@ -102,14 +122,15 @@ namespace ZIMAeTicket.ViewModel
 
                 // Stats update
                 var ticketsCount = await ticketService.CountTickets();
-                Preferences.Set("tickets_count", ticketsCount.ToString());
+                Preferences.Default.Set("tickets_count", ticketsCount);
                 // Last sync date update
-                Preferences.Default.Set("last_db_sync", DateTime.Now);
+                QueryDate = DateTime.Now;
+                Preferences.Default.Set("last_db_sync", QueryDate);
 
                 if (newTicketsCount > 0)
-                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów.", "OK");
                 else
-                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status API: {soteshopService.StatusMessage}", "OK");
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów. Status API: {soteshopService.StatusMessage}", "OK");
             }
             catch (Exception ex)
             {
@@ -136,10 +157,10 @@ namespace ZIMAeTicket.ViewModel
                 var clearTicketsResult = await ticketService.ClearTicketsTable();
 
                 // Stats update
-                Preferences.Set("tickets_count", 0);
-                Preferences.Set("pending_tickets", 0);
-                Preferences.Set("last_db_sync", DateTime.MinValue);
-                Preferences.Set("last_mailing", DateTime.MinValue);
+                Preferences.Default.Set("tickets_count", 0);
+                Preferences.Default.Set("pending_tickets", 0);
+                Preferences.Default.Set("last_db_sync", DateTime.MinValue);
+                Preferences.Default.Set("last_mailing", DateTime.MinValue.ToString());
 
                 await Shell.Current.DisplayAlert("Resetowanie", $"Usunięto grup: {clearTicketGroupResult}\nUsunięto biletów: {clearTicketsResult}", "OK");
             }
