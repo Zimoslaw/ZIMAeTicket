@@ -24,7 +24,7 @@
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding DisplayGroupChoicePopUpCommand}"/>
             </HorizontalStackLayout.GestureRecognizers>
-            <Label Text="{Binding ChosenGroupName}" FontSize="24"/>
+            <Label Text="{Binding ChosenGroupName}" Style="{StaticResource Headline}"/>
         </HorizontalStackLayout>
 
 
