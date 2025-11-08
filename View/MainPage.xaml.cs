@@ -11,9 +11,9 @@ public partial class MainPage : ContentPage
     {
         base.OnAppearing();
 
-        TicketsCountLabel.Text = Preferences.Get("tickets_count", "0");
+        TicketsCountLabel.Text = Preferences.Default.Get("tickets_count", 0).ToString();
 
-        DateTime lastDBSyncDateTime = Preferences.Get("last_db_sync", DateTime.MinValue);
+        DateTime lastDBSyncDateTime = Preferences.Default.Get("last_db_sync", DateTime.MinValue);
         if (lastDBSyncDateTime != DateTime.MinValue)
             LastDBSyncLabel.Text = lastDBSyncDateTime.ToString();
         else

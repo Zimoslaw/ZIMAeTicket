@@ -16,10 +16,8 @@ public partial class Mailing : ContentPage
         base.OnNavigatedTo(args);
 
         viewModel.PendingTicketsCount = Preferences.Default.Get("pending_tickets", 0);
-        viewModel.LastMailingDateTime = Preferences.Default.Get("last_mailing", DateTime.MinValue);
-        if (viewModel.LastMailingDateTime != DateTime.MinValue)
-            LastMailingLabel.Text = viewModel.LastMailingDateTime.ToString();
-        else
-            LastMailingLabel.Text = "Nigdy";
+        viewModel.LastMailingDateTime = Preferences.Default.Get("last_mailing", DateTime.MinValue.ToString());
+        if (viewModel.LastMailingDateTime == DateTime.MinValue.ToString())
+            viewModel.LastMailingDateTime = "Nigdy";
     }
 }
