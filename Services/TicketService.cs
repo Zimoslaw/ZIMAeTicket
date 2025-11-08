@@ -65,6 +65,36 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<bool> OrderExistsInDatabase(string orderId, int ticketGroupId)
+        {
+            try
+            {
+                int count = await conn.Table<Ticket>().Where(t => t.OrderId == orderId && t.TicketGroupId == ticketGroupId).CountAsync();
+
+                if (count > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public async Task UpdateTicket(Ticket ticket)
+        {
+            try
+            {
+                await conn.UpdateAsync(ticket);
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to update data. {0}", ex.Message);
+            }
+        }
+
         public async Task<bool> UseTicket(Ticket ticket)
         {
             try
