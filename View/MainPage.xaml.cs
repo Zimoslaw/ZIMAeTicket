@@ -24,9 +24,4 @@ public partial class MainPage : ContentPage
     {
         await Shell.Current.GoToAsync("ScanQR");
     }
-
-    private void CounterBtn_Clicked(object sender, EventArgs e)
-    {
-
-    }
 }
