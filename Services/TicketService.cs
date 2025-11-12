@@ -65,6 +65,19 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<Ticket> GetTicketByHash(string hash)
+        {
+            try
+            {
+                return await conn.Table<Ticket>().Where(t => t.Hash == hash).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null;
+            }
+        }
+
         public async Task<bool> OrderExistsInDatabase(string orderId, int ticketGroupId)
         {
             try
