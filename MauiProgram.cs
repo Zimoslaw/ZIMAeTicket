@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ZIMAeTicket.Services;
+using ZXing.Net.Maui.Controls;
 
 namespace ZIMAeTicket
 {
@@ -14,7 +15,8 @@ namespace ZIMAeTicket
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .UseBarcodeReader();
 
 #if DEBUG
             builder.Logging.AddDebug();
