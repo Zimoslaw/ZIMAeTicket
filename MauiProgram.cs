@@ -26,6 +26,8 @@ namespace ZIMAeTicket
 
             builder.Services.AddSingleton<SoteshopService>();
 
+            builder.Services.AddSingleton<MailingService>();
+
             builder.Services.AddSingleton<TicketsViewModel>();
 
             builder.Services.AddSingleton<SettingsViewModel>();
