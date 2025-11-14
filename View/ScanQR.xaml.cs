@@ -52,13 +52,16 @@ public partial class ScanQR : ContentPage
 		{
             Dispatcher.DispatchAsync(async () =>
                 await Shell.Current.DisplayAlert("Skanowanie biletu", "Brak prawidłowego kodu w obiektywie", "OK"));
-			return;
+            BarcodeReader.BarcodesDetected += OnBarcodesDetected;
+            return;
 		}
 
         // Checking if QR code value is in correct format
         if (!Regex.IsMatch(result.Value, @"\A[0-9A-Fa-f]{64}\z"))
         {
-            Shell.Current.DisplayAlert("Skanowanie biletu", "Zeskanowany kod nie jest prawidłowym biletem", "OK");
+            Dispatcher.DispatchAsync(async () =>
+                await Shell.Current.DisplayAlert("Skanowanie biletu", "Zeskanowany kod nie jest prawidłowym biletem", "OK"));
+            BarcodeReader.BarcodesDetected += OnBarcodesDetected;
             return;
         }
 
@@ -66,7 +69,9 @@ public partial class ScanQR : ContentPage
 
         if (ticketFromDB == null)
         {
-            Shell.Current.DisplayAlert("Skanowanie biletu", "Brak biletu w bazie danych", "OK");
+            Dispatcher.DispatchAsync(async () =>
+                await Shell.Current.DisplayAlert("Skanowanie biletu", "Brak biletu w bazie danych", "OK"));
+            BarcodeReader.BarcodesDetected += OnBarcodesDetected;
             return;
         }
 
