@@ -1,4 +1,8 @@
-﻿using ZIMAeTicket.Services;
+﻿using System.Drawing;
+using ZIMAeTicket.Services;
+using MailKit.Net.Smtp;
+using MimeKit;
+using QRCoder;
 
 namespace ZIMAeTicket.ViewModel
 {
@@ -18,12 +22,14 @@ namespace ZIMAeTicket.ViewModel
 
         TicketService ticketService;
         SoteshopService soteshopService;
+        MailingService mailingService;
 
-        public MailingViewModel(TicketService ticketService, SoteshopService soteshopService)
+        public MailingViewModel(TicketService ticketService, SoteshopService soteshopService, MailingService mailingService)
         {
             Title = "Wyślij bilety";
             this.ticketService = ticketService;
             this.soteshopService = soteshopService;
+            this.mailingService = mailingService;
         }
 
         [RelayCommand]
@@ -42,30 +48,69 @@ namespace ZIMAeTicket.ViewModel
                 return;
             }
 
-            IsBusy = true;
+            bool initResult = mailingService.InitSMTPConnection();
 
-            List<Ticket> ticketsToSend = await ticketService.GetTicketsToSend();
+            if (!initResult)
+            {
+                await Shell.Current.DisplayAlert("Błąd", $"Błąd inicjalizacji z serwerem poczty: {mailingService.StatusMessage}", "OK");
+                return;
+            }
+
+            if (!mailingService.SmtpClient.IsAuthenticated)
+            {
+                await Shell.Current.DisplayAlert("Błąd", "Błąd połączenia lub autoryzacji z serwerem poczty", "OK");
+                return;
+            }
+
+            IsBusy = true;
 
             try
             {
-                foreach (Ticket ticket in ticketsToSend)
+                List<string> orders = await ticketService.GetTicketsOrders();
+
+                // One e-mail for each order
+                foreach (string order in orders)
                 {
-                    // Calculate hash value for QR code
-                    ticket.CalculateHash();
+                    string dateOfEmail = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                    // TODO generate QR code
-                    // TODO send email
+                    List<Ticket> tickets = await ticketService.GetTicketsByOrderId(order);
 
-                    ticket.DateOfEmail = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                    // Putting sent ticket into table with ready to download and scan tickets
-                    bool putResult = await soteshopService.PutTicketIntoRemoteDatabase(ticket);
-
-                    if (putResult)
+                    byte index = 0;
+                    foreach(Ticket ticket in tickets)
                     {
-                        await ticketService.UpdateTicket(ticket);
-                        SentTicketsCount++;
+                        // Get order data from first ticket
+                        if (index == 0)
+                        {
+                            mailingService.InitMessage(dateOfEmail, order, ticket.DateOfOrder, ticket.OrderEmail, ticket.Buyer);
+                            index++;
+                        }
+
+                        // Calculate hash value for QR code
+                        ticket.CalculateHash();
+
+                        mailingService.AttatchQRCodeToMessage(ticket.Hash);
                     }
+
+                    bool result = await mailingService.SendMail();
+
+                    if (!result) 
+                    {
+                        throw new Exception(mailingService.StatusMessage);
+                    }
+
+                    foreach (Ticket ticket in tickets)
+                    {
+                        ticket.DateOfEmail = dateOfEmail;
+
+                        // Putting sent ticket into db table with ready to download and scan tickets
+                        bool putResult = await soteshopService.PutTicketIntoRemoteDatabase(ticket);
+
+                        if (putResult)
+                        {
+                            await ticketService.UpdateTicket(ticket);
+                            SentTicketsCount++;
+                        }
+                    }   
                 }
 
                 await Shell.Current.DisplayAlert("Wysyłanie biletów", $"Wysłano {SentTicketsCount} biletów", "OK");
@@ -81,6 +126,8 @@ namespace ZIMAeTicket.ViewModel
 
                 LastMailingDateTime = DateTime.Now.ToString();
                 Preferences.Default.Set("last_mailing", LastMailingDateTime);
+
+                mailingService.CloseSMTPConnection();
 
                 IsBusy = false;
 
