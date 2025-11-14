@@ -65,6 +65,33 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<List<string>> GetTicketsOrders()
+        {
+            try
+            {
+                var tickets = await conn.Table<Ticket>().Where(t => t.DateOfEmail == string.Empty).ToListAsync();
+                return tickets.Select(t => t.OrderId).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<string>();
+            }
+        }
+
+        public async Task<List<Ticket>> GetTicketsByOrderId(string orderId)
+        {
+            try
+            {
+                return await conn.Table<Ticket>().Where(t => t.OrderId == orderId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<Ticket>();
+            }
+        }
+
         public async Task<Ticket> GetTicketByHash(string hash)
         {
             try
