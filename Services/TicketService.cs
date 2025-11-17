@@ -218,6 +218,19 @@ namespace ZIMAeTicket.Services
             }
         }
 
+        public async Task<TicketGroup> GetTicketGroupById(int id)
+        {
+            try
+            {
+                return await conn.Table<TicketGroup>().Where(g => g.Id == id).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null;
+            }
+        }
+
         public async Task<TicketGroup> GetTicketGroupByName(string name)
         {
             try
