@@ -9,17 +9,32 @@ namespace ZIMAeTicket.Services
     {
         public string StatusMessage { get; set; }
 
+        // Mailing
         public SmtpClient SmtpClient { get; set; }
 
         public MimeMessage MimeMessage { get; set; }
 
         public BodyBuilder BodyBuilder {  get; set; }
 
+        // QR
         QRCodeGenerator qrCodeGenerator;
+
+        // PDF
+        PDFService pdfService;
+
+        // Order data
+        string orderId;
+        string dateOfEmail;
+        string dateOfOrder;
+        string orderEmail;
+        string buyer;
+        string eventName;
+        int ticketNo;
 
         public MailingService() 
         {
             qrCodeGenerator = new QRCodeGenerator();
+            pdfService = new PDFService();
         }
 
         public bool InitSMTPConnection()
@@ -43,14 +58,22 @@ namespace ZIMAeTicket.Services
             SmtpClient.Disconnect(true);
         }
 
-        public void InitMessage(string dateOfEmail, string orderId, string dateOfOrder, string receiverAddress, string receiverName)
+        public void InitMessage(string orderId, string dateOfEmail, string dateOfOrder, string receiverAddress, string receiverName, string eventName)
         {
+            this.orderId = orderId;
+            this.dateOfOrder = dateOfOrder;
+            this.dateOfEmail = dateOfEmail;
+            orderEmail = receiverAddress;
+            buyer = receiverName;
+            this.eventName = eventName;
+            ticketNo = 1;
+
             MimeMessage = new MimeMessage();
             BodyBuilder = new BodyBuilder();
 
-            MimeMessage.Subject = $"Zamówienie numer: {orderId} - Bilety do zamówienia";
+            MimeMessage.Subject = $"Zamówienie numer: {this.orderId} - Bilety do zamówienia";
             MimeMessage.From.Add(new MailboxAddress("ZIMA - sklep muzyczny", AccessStrings.SMTPUsername));
-            MimeMessage.To.Add(new MailboxAddress(receiverName, receiverAddress));
+            MimeMessage.To.Add(new MailboxAddress(buyer, orderEmail));
 
             BodyBuilder.HtmlBody = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
 <html xmlns=""http://www.=w3.org/1999/xhtml"" style=""margin: 0;padding: 0;font-family: Arial, sans-serif;"">
@@ -427,7 +450,7 @@ ment, so that it will fill 100% of the .container */
                                     'helveticaneue-light', 'helvetica neue light', 'helvetica
                                     neue', helvetica, arial, 'lucida grande', sans-serif:
                                     ;line-height: 1.1;margin-bottom: 15px;color: #444;font-weight: 900;font-size:
-                                    14px;text-transform: uppercase;"">" + dateOfEmail + @"</h6>
+                                    14px;text-transform: uppercase;"">" + this.dateOfEmail + @"</h6>
                             </td>
                         </tr>
                     </table>
@@ -452,12 +475,12 @@ ment, so that it will fill 100% of the .container */
                                         sans-serif;margin-bottom: 10px;font-weight: normal;line-height: 1.6;""></p>
                                     <h4 style=""margin: 0;padding: 0;font-family: 'helveticaneue-light', 'helvetica neue light', 'helvetica neue', helvetica, arial,
                                         'lucida grande', sans-serif ;line-height: 1.1;margin-bottom:
-                                        15px;color: #000;font-weight: 500;font-size: 23px;"">Zamówienie numer: " + orderId + @"
+                                        15px;color: #000;font-weight: 500;font-size: 23px;"">Zamówienie numer: " + this.orderId + @"
                                         </h4>
 
                                             <div style=""font-size:12px; color:#576278;"">
                                                 Data złożenia zamówienia:<span style=""color:#404040; padding-left:
-                                                    5px"">" + dateOfOrder + @"<span>
+                                                    5px"">" + this.dateOfOrder + @"<span>
                                             </div>
                                             <br />
 
@@ -512,21 +535,32 @@ ment, so that it will fill 100% of the .container */
 </html>";
         }
 
-        public void AttatchQRCodeToMessage(string hash)
+        public async Task<bool> AttatchQRCodeToMessage(string hash)
         {
-            // Generating QR code
-            QRCodeData qRCodeData = qrCodeGenerator.CreateQrCode(hash, QRCodeGenerator.ECCLevel.Q);
-            QRCode qRCode = new QRCode(qRCodeData);
-            Bitmap qRCodeImage = qRCode.GetGraphic(100);
-            byte[] qRCodeImageBytes;
-            using (MemoryStream ms = new())
+            try
             {
-                qRCodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                qRCodeImageBytes = ms.ToArray();
-            }
+                // Generating QR code
+                QRCodeData qRCodeData = qrCodeGenerator.CreateQrCode(hash, QRCodeGenerator.ECCLevel.Q);
+                QRCode qRCode = new QRCode(qRCodeData);
+                Bitmap qRCodeImage = qRCode.GetGraphic(100);
 
-            // Attaching QR code
-            BodyBuilder.Attachments.Add($"Bilet-Zima-{hash}.png", qRCodeImageBytes, new ContentType("Image", "Png"));
+                byte[] pdfTicketBytes;
+                using (MemoryStream ms = new())
+                {
+                    qRCodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    pdfTicketBytes = await pdfService.CreateNewPDFTicket(ms, orderId, orderEmail, dateOfOrder, ticketNo++, eventName);
+                }
+
+                // Attaching QR code
+                BodyBuilder.Attachments.Add($"Bilet-Zima-{hash[..16]}.pdf", pdfTicketBytes, new ContentType("application", "pdf"));
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error in attaching ticket PDF: {ex}";
+                return false;
+            }
         }
 
         public async Task<bool> SendMail()
