@@ -81,19 +81,25 @@ namespace ZIMAeTicket.ViewModel
                         // Get order data from first ticket
                         if (index == 0)
                         {
-                            mailingService.InitMessage(dateOfEmail, order, ticket.DateOfOrder, ticket.OrderEmail, ticket.Buyer);
+                            TicketGroup ticketGroup = await ticketService.GetTicketGroupById(ticket.TicketGroupId);
+                            mailingService.InitMessage(order, dateOfEmail, ticket.DateOfOrder, ticket.OrderEmail, ticket.Buyer, ticketGroup.Name);
                             index++;
                         }
 
                         // Calculate hash value for QR code
                         ticket.CalculateHash();
 
-                        mailingService.AttatchQRCodeToMessage(ticket.Hash);
+                        bool attachResult = await mailingService.AttatchQRCodeToMessage(ticket.Hash);
+
+                        if (!attachResult)
+                        {
+                            throw new Exception(mailingService.StatusMessage);
+                        }
                     }
 
-                    bool result = await mailingService.SendMail();
+                    bool sendResult = await mailingService.SendMail();
 
-                    if (!result) 
+                    if (!sendResult) 
                     {
                         throw new Exception(mailingService.StatusMessage);
                     }
