@@ -60,15 +60,15 @@ namespace ZIMAeTicket.Services
                 gfx.DrawString("(w celu zeskanowania kodu QR)",
                     fontText, XBrushes.Black, new XRect(147, currentHeight += 16, 300, 0), XStringFormats.BaseLineCenter);
 
-                gfx.DrawImage(logo, 247, 630, 100, 100); // Logo
+                gfx.DrawImage(logo, 247, 610, 100, 100); // Logo
 
                 // Template footer
                 gfx.DrawString("ZIMA Firma Fonograficzno-Handlowa", 
                     fontFooter, XBrushes.Black, new XRect(72, 730, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
                 gfx.DrawString("ul. Bankowa 1/9 44-100 Gliwice", 
-                    fontFooter, XBrushes.Black, new XRect(72, 742, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
+                    fontFooter, XBrushes.Black, new XRect(72, 744, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
                 gfx.DrawString("https://zima.sklep.pl", 
-                    fontFooter, XBrushes.Black, new XRect(72, 754, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
+                    fontFooter, XBrushes.Black, new XRect(72, 756, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
 
                 // Saving PDF to bytes
                 byte[] pdfTicketBytes;
