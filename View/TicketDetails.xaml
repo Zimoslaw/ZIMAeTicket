@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="20" HorizontalOptions="Center">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="20" HorizontalOptions="Center">
         <VerticalStackLayout Grid.Row="0">
             <Label Text="{Binding Ticket.Buyer}" Style="{StaticResource Headline}"/>
             <Label Text="{Binding Ticket.OrderEmail}" Style="{StaticResource SubHeadline}"/>
@@ -41,7 +41,13 @@
         </VerticalStackLayout>
         <Button Text="Wykorzystaj bilet" Grid.Row="6" IsEnabled="{Binding IsNotUsed}"
                 CommandParameter="{Binding Ticket}"
-                Command="{Binding UseTicketCommand}"/>
-        <ActivityIndicator Grid.Row="6" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+                Command="{Binding UseTicketCommand}"
+                IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+        <Button Text="Wyślij ponownie na e-mail" Grid.Row="6" IsEnabled="{Binding IsNotUsed}"
+                Command="{Binding ResendTicketCommand}"
+                IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+        <Entry Text="{Binding Ticket.OrderEmail, Mode=TwoWay}" Grid.Row="7" Placeholder="Adres e-mail do ponownego wysłania" 
+               IsVisible="{OnPlatform Android=False, WinUI=True}" />
+        <ActivityIndicator Grid.Row="7" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
     </Grid>
 </ContentPage>
