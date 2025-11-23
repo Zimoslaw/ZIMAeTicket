@@ -17,31 +17,35 @@ namespace ZIMAeTicket.Services
         public BodyBuilder BodyBuilder {  get; set; }
 
         // QR
-        QRCodeGenerator qrCodeGenerator;
+        readonly QRCodeGenerator qrCodeGenerator;
 
         // PDF
-        PDFService pdfService;
+        readonly PDFService pdfService;
 
         // Order data
-        string orderId;
-        string dateOfEmail;
-        string dateOfOrder;
-        string orderEmail;
-        string buyer;
-        string eventName;
+        string orderId = string.Empty;
+        string dateOfEmail = string.Empty;
+        string dateOfOrder = string.Empty;
+        string orderEmail = string.Empty;
+        string buyer = string.Empty;
+        string eventName = string.Empty;
         int ticketNo;
 
         public MailingService() 
         {
             qrCodeGenerator = new QRCodeGenerator();
             pdfService = new PDFService();
+            SmtpClient = new SmtpClient();
+            MimeMessage = new MimeMessage();
+            BodyBuilder = new BodyBuilder();
+
+            StatusMessage = "Initialized";
         }
 
         public bool InitSMTPConnection()
         {
             try
             {
-                SmtpClient = new SmtpClient();
                 SmtpClient.Connect(AccessStrings.SMTPServerAddress, AccessStrings.SMTPServerPort, MailKit.Security.SecureSocketOptions.Auto);
                 SmtpClient.Authenticate(AccessStrings.SMTPUsername, AccessStrings.SMTPPassword);
                 return true;
@@ -67,9 +71,6 @@ namespace ZIMAeTicket.Services
             buyer = receiverName;
             this.eventName = eventName;
             ticketNo = 1;
-
-            MimeMessage = new MimeMessage();
-            BodyBuilder = new BodyBuilder();
 
             MimeMessage.Subject = $"Zamówienie numer: {this.orderId} - Bilety do zamówienia";
             MimeMessage.From.Add(new MailboxAddress("ZIMA - sklep muzyczny", AccessStrings.SMTPUsername));
@@ -535,13 +536,14 @@ ment, so that it will fill 100% of the .container */
 </html>";
         }
 
+#if WINDOWS
         public async Task<bool> AttatchQRCodeToMessage(string hash)
         {
             try
             {
                 // Generating QR code
                 QRCodeData qRCodeData = qrCodeGenerator.CreateQrCode(hash, QRCodeGenerator.ECCLevel.Q);
-                QRCode qRCode = new QRCode(qRCodeData);
+                QRCode qRCode = new(qRCodeData);
                 Bitmap qRCodeImage = qRCode.GetGraphic(100);
 
                 byte[] pdfTicketBytes;
@@ -562,6 +564,7 @@ ment, so that it will fill 100% of the .container */
                 return false;
             }
         }
+#endif
 
         public async Task<bool> SendMail()
         {

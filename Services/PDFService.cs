@@ -24,7 +24,7 @@ namespace ZIMAeTicket.Services
             {
                 // PDF setup
                 GlobalFontSettings.UseWindowsFontsUnderWindows = true;
-                PdfDocument document = new PdfDocument();
+                PdfDocument document = new();
                 document.Info.Title = title;
                 document.Info.Subject = subject;
                 var page = document.AddPage();
@@ -99,10 +99,8 @@ namespace ZIMAeTicket.Services
 
                 targetPath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
-                using (FileStream fileStream = File.Create(targetPath))
-                {
-                    resourceStream.CopyTo(fileStream);
-                }
+                using FileStream fileStream = File.Create(targetPath);
+                resourceStream.CopyTo(fileStream);
             }
 
             return targetPath;

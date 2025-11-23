@@ -9,9 +9,9 @@ namespace ZIMAeTicket.Services
 {
     public partial class SoteshopService
     {
-        HttpClient _httpClient;
+        readonly HttpClient _httpClient;
 
-        JsonSerializerOptions _jsonDeserializeOptions;
+        readonly JsonSerializerOptions _jsonDeserializeOptions;
 
         public string StatusMessage { get; set; }
         public SoteshopService()
@@ -23,6 +23,8 @@ namespace ZIMAeTicket.Services
             {
                 PropertyNameCaseInsensitive = true,
             };
+
+            StatusMessage = "Initialized";
         }
 
         public async Task<List<Ticket>> GetTicketsFromShopByDate(int productId, DateTime dateFrom)
@@ -46,12 +48,12 @@ namespace ZIMAeTicket.Services
                 // Response serialization
                 var responseTickets = JsonSerializer.Deserialize<GetTicketsByDateResponse>(ticketsData, _jsonDeserializeOptions);
 
-                return responseTickets.Tickets;
+                return responseTickets == null ? throw new Exception("Deserializing returned null") : responseTickets.Tickets;
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Error getting data from API: {ex.Message}";
-                return new List<Ticket>();
+                return [];
             }
         }
 
@@ -111,18 +113,18 @@ namespace ZIMAeTicket.Services
                 // Response serialization
                 var responseTickets = JsonSerializer.Deserialize<GetTicketsByDateResponse>(ticketsData, _jsonDeserializeOptions);
 
-                return responseTickets.Tickets;
+                return responseTickets == null ? throw new Exception("Deserializing returned null") : responseTickets.Tickets;
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Error getting data from API: {ex.Message}";
-                return new List<Ticket>();
+                return [];
             }
         }
     }
 
     public class GetTicketsByDateResponse
     {
-        public List<Ticket> Tickets { get; set; }
+        required public List<Ticket> Tickets { get; set; }
     }
 }

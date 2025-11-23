@@ -7,9 +7,12 @@ using ZXing.Net.Maui.Controls;
 
 public partial class ScanQR : ContentPage
 {
-    TicketService ticketService;
+    readonly TicketService ticketService;
 
-	public ScanQR()
+    [GeneratedRegex(@"\A[0-9A-Fa-f]{64}\z")]
+    private static partial Regex HashRegex();
+
+    public ScanQR()
 	{
 		InitializeComponent();
 
@@ -57,7 +60,7 @@ public partial class ScanQR : ContentPage
 		}
 
         // Checking if QR code value is in correct format
-        if (!Regex.IsMatch(result.Value, @"\A[0-9A-Fa-f]{64}\z"))
+        if (!HashRegex().IsMatch(result.Value))
         {
             Dispatcher.DispatchAsync(async () =>
                 await Shell.Current.DisplayAlert("Skanowanie biletu", "Zeskanowany kod nie jest prawidłowym biletem", "OK"));
@@ -71,6 +74,14 @@ public partial class ScanQR : ContentPage
         {
             Dispatcher.DispatchAsync(async () =>
                 await Shell.Current.DisplayAlert("Skanowanie biletu", "Brak biletu w bazie danych", "OK"));
+            BarcodeReader.BarcodesDetected += OnBarcodesDetected;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(ticketFromDB.OrderId))
+        {
+            Dispatcher.DispatchAsync(async () =>
+                await Shell.Current.DisplayAlert("Skanowanie biletu", $"Błąd podczas pobierania danych: {ticketService.StatusMessage}", "OK"));
             BarcodeReader.BarcodesDetected += OnBarcodesDetected;
             return;
         }

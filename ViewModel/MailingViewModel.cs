@@ -20,9 +20,9 @@ namespace ZIMAeTicket.ViewModel
         [ObservableProperty]
         public string lastMailingDateTime;
 
-        TicketService ticketService;
-        SoteshopService soteshopService;
-        MailingService mailingService;
+        readonly TicketService ticketService;
+        readonly SoteshopService soteshopService;
+        readonly MailingService mailingService;
 
         public MailingViewModel(TicketService ticketService, SoteshopService soteshopService, MailingService mailingService)
         {
@@ -30,8 +30,11 @@ namespace ZIMAeTicket.ViewModel
             this.ticketService = ticketService;
             this.soteshopService = soteshopService;
             this.mailingService = mailingService;
+
+            lastMailingDateTime = DateTime.MinValue.ToString();
         }
 
+#if WINDOWS
         [RelayCommand]
         async Task SendTicketsByEmail()
         {
@@ -127,7 +130,7 @@ namespace ZIMAeTicket.ViewModel
             }
             finally
             {
-                PendingTicketsCount = PendingTicketsCount - SentTicketsCount;
+                PendingTicketsCount -= SentTicketsCount;
                 Preferences.Default.Set("pending_tickets", PendingTicketsCount);
 
                 LastMailingDateTime = DateTime.Now.ToString();
@@ -143,5 +146,6 @@ namespace ZIMAeTicket.ViewModel
                     await Shell.Current.DisplayAlert("Coś poszło nie tak", "Nie wszystkie bilety zostały wysłane, spróbuj ponownie", "OK");
             }
         }
+#endif
     }
 }

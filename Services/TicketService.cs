@@ -4,40 +4,36 @@ namespace ZIMAeTicket.Services
 {
     public partial class TicketService
     {
-        string _dbPath;
+        readonly string _dbPath;
 
         public string StatusMessage { get; set; }
 
-        private SQLiteAsyncConnection conn;
-
-        private void InitDB()
-        {
-            if (conn != null)
-                return;
-
-            conn = new SQLiteAsyncConnection(_dbPath);
-        }
+        readonly private SQLiteAsyncConnection conn;
 
         public TicketService()
         {
             _dbPath = Constants.DatabasePath;
 
+            conn = new SQLiteAsyncConnection(_dbPath);
+
             try
             {
-                InitDB();
                 conn.CreateTableAsync<Ticket>();
                 conn.CreateTableAsync<TicketGroup>();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Failed initializing database: {ex.Message}");
+                StatusMessage = ex.Message;
             }
+
+            StatusMessage = "Initialized";
         }
 
         public async Task<List<Ticket>> GetTicketsByPhrase(int ticketGroupId, string searchPhrase)
         {
             if (searchPhrase is null || searchPhrase.Length < 3)
-                return new List<Ticket>();
+                return [];
 
             try
             {
@@ -48,7 +44,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return new List<Ticket>();
+                return [];
             }
         }
 
@@ -61,7 +57,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return new List<Ticket>();
+                return [];
             }
         }
 
@@ -75,7 +71,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return new List<string>();
+                return [];
             }
         }
 
@@ -88,7 +84,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return new List<Ticket>();
+                return [];
             }
         }
 
@@ -101,7 +97,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return null;
+                return new Ticket();
             }
         }
 
@@ -156,13 +152,13 @@ namespace ZIMAeTicket.Services
 
         public async Task AddNewTicket(Ticket ticket)
         {
-            Task<int> result;
+            int result;
 
             try
             {
-                result = conn.InsertAsync(ticket);
+                result = await conn.InsertAsync(ticket);
 
-                StatusMessage = string.Format("{0} record(s) added.", result.Result);
+                StatusMessage = string.Format("{0} record(s) added.", result);
             }
             catch (Exception ex)
             {
@@ -172,7 +168,7 @@ namespace ZIMAeTicket.Services
 
         public async Task<bool> AddNewTicketGroup(int productId, string groupName)
         {
-            Task<int> result;
+            int result;
 
             try
             {
@@ -181,15 +177,15 @@ namespace ZIMAeTicket.Services
                     throw new Exception("Cannot add group with empty name or product ID");
                 }
 
-                result = conn.InsertAsync(new TicketGroup
+                result = await conn.InsertAsync(new TicketGroup
                 {
                     Id = productId,
                     Name = groupName
                 });
 
-                StatusMessage = string.Format("{0} record(s) added.", result.Result);
+                StatusMessage = string.Format("{0} record(s) added.", result);
 
-                if (result.Result == 1)
+                if (result == 1)
                 {
                     return true;
                 }
@@ -214,7 +210,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return new List<TicketGroup>();
+                return [];
             }
         }
 
@@ -227,7 +223,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return null;
+                return new TicketGroup();
             }
         }
 
@@ -240,7 +236,7 @@ namespace ZIMAeTicket.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return null;
+                return new TicketGroup();
             }
         }
 

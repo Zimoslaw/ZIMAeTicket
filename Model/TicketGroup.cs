@@ -15,7 +15,10 @@ namespace ZIMAeTicket.Model
         [Unique, MaxLength(32)]
         public string Name { get; set; } // Dowolna
 
-        public TicketGroup() { }
+        public TicketGroup() 
+        { 
+            Name = string.Empty;
+        }
 
         public TicketGroup(int productId, string name)
         {

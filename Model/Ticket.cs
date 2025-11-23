@@ -32,6 +32,11 @@ namespace ZIMAeTicket.Model
 
         public Ticket()
         {
+            OrderId = string.Empty;
+            OrderEmail = string.Empty;
+            Buyer = string.Empty;
+            DateOfOrder = string.Empty;
+            DateOfPayment = string.Empty;
         }
 
         public Ticket(int id, int ticketGroupId, int quantity, string orderId, string orderEmail, string buyer, string dateOfOrder, string dateOfPayment)
