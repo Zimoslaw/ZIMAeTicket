@@ -62,7 +62,7 @@ namespace ZIMAeTicket.ViewModel
                         {
                             await ticketService.AddNewTicket(ticket);
                             newTicketsCount++;
-                        } 
+                        }
                     }
                 }
 
@@ -75,8 +75,6 @@ namespace ZIMAeTicket.ViewModel
                 QueryDate = DateTime.Now;
                 Preferences.Default.Set("last_db_sync", QueryDate);
 
-                IsBusy = false;
-
                 if (newTicketsCount > 0)
                     await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
                 else
@@ -85,6 +83,10 @@ namespace ZIMAeTicket.ViewModel
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Błąd", $"Błąd przy pobieraniu biletów ze sklepu: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
@@ -147,11 +149,11 @@ namespace ZIMAeTicket.ViewModel
 
             IsBusy = true;
 
-            if (!confirmReset)
-                return;
-
             try
             {
+                if (!confirmReset)
+                    return;
+
                 // Clear tickets db
                 var clearTicketGroupResult = await ticketService.ClearTicketGroupTable();
                 var clearTicketsResult = await ticketService.ClearTicketsTable();
