@@ -17,11 +17,11 @@ namespace ZIMAeTicket.ViewModel
         [GeneratedRegex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")]
         private static partial Regex EmailAddressRegex();
 
+        readonly MailingService mailingService;
         readonly SoteshopService soteshopService;
 #endif
 
         readonly TicketService ticketService;
-        readonly MailingService mailingService;
         
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotUsed))]
@@ -41,11 +41,10 @@ namespace ZIMAeTicket.ViewModel
         }
 #endif
 #if ANDROID
-        public TicketDetailsViewModel(TicketService ticketService, MailingService mailingService)
+        public TicketDetailsViewModel(TicketService ticketService)
         {
             Title = $"Szczegóły biletu";
             this.ticketService = ticketService;
-            this.mailingService = mailingService;
         }
 #endif
 
