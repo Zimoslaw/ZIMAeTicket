@@ -16,12 +16,15 @@ namespace ZIMAeTicket.ViewModel
         [ObservableProperty]
         public string addButtonText = "Dodaj";
 
-        TicketService ticketService;
+        readonly TicketService ticketService;
 
         public NewTicketGroupViewModel(TicketService ticketService)
         {
             Title = "Dodaj nową grupę biletów";
             this.ticketService = ticketService;
+
+            GroupName = string.Empty;
+            ProductId = string.Empty;
         }
 
         [RelayCommand]

@@ -10,13 +10,10 @@ namespace ZIMAeTicket
         {
             StringBuilder stringBuilder = new();
 
-            using (var hash = SHA256.Create())
-            {
-                byte[] bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(value));
 
-                foreach (byte b in bytes)
-                    stringBuilder.Append(b.ToString("x2"));
-            }
+            foreach (byte b in bytes)
+                stringBuilder.Append(b.ToString("x2"));
 
             return stringBuilder.ToString();
         }

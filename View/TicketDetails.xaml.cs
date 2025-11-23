@@ -11,10 +11,10 @@ public partial class TicketDetails : ContentPage
 		BindingContext = viewModel;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        await viewModel.ChangeUsedProperty();
+        viewModel.ChangeUsedProperty();
     }
 }

@@ -4,7 +4,7 @@ namespace ZIMAeTicket.ViewModel
 {
     public partial class TicketsViewModel : BaseViewModel
     {
-        public ObservableCollection<Ticket> Tickets { get; } = new();
+        public ObservableCollection<Ticket> Tickets { get; } = [];
 
         [ObservableProperty]
         public string searchPhrase;
@@ -15,7 +15,7 @@ namespace ZIMAeTicket.ViewModel
         [ObservableProperty]
         public bool isGroupChosen;
 
-        TicketService ticketService;
+        readonly TicketService ticketService;
 
         public TicketsViewModel(TicketService ticketService)
         {
@@ -23,6 +23,7 @@ namespace ZIMAeTicket.ViewModel
             ChosenGroupName = "> Wybierz grupę";
             IsGroupChosen = false;
             this.ticketService = ticketService;
+            SearchPhrase = string.Empty;
         }
 
         [RelayCommand]

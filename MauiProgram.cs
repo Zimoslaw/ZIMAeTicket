@@ -25,15 +25,15 @@ namespace ZIMAeTicket
             builder.Services.AddSingleton<TicketService>();
 
             builder.Services.AddSingleton<SoteshopService>();
-
+#if WINDOWS
             builder.Services.AddSingleton<MailingService>();
-
+#endif
             builder.Services.AddSingleton<TicketsViewModel>();
 
             builder.Services.AddSingleton<SettingsViewModel>();
-
+#if WINDOWS
             builder.Services.AddSingleton<MailingViewModel>();
-
+#endif
             builder.Services.AddTransient<TicketDetailsViewModel>();
 
             builder.Services.AddTransient<NewTicketGroupViewModel>();

@@ -17,12 +17,12 @@ namespace ZIMAeTicket.ViewModel
         [GeneratedRegex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")]
         private static partial Regex EmailAddressRegex();
 
+        readonly SoteshopService soteshopService;
 #endif
 
-        TicketService ticketService;
-        MailingService mailingService;
-        SoteshopService soteshopService;
-
+        readonly TicketService ticketService;
+        readonly MailingService mailingService;
+        
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotUsed))]
         public bool isUsed;
@@ -36,16 +36,20 @@ namespace ZIMAeTicket.ViewModel
             this.ticketService = ticketService;
             this.mailingService = mailingService;
             this.soteshopService = soteshopService;
+
+            ResendEmailAddress = string.Empty;
         }
 #endif
+#if ANDROID
         public TicketDetailsViewModel(TicketService ticketService, MailingService mailingService)
         {
             Title = $"Szczegóły biletu";
             this.ticketService = ticketService;
             this.mailingService = mailingService;
         }
+#endif
 
-        public async Task ChangeUsedProperty()
+        public void ChangeUsedProperty()
         {
             IsUsed = Ticket.Used;
         }

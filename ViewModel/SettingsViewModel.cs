@@ -7,9 +7,9 @@ namespace ZIMAeTicket.ViewModel
         [ObservableProperty]
         public DateTime queryDate;
 
-        TicketService ticketService;
+        readonly TicketService ticketService;
 
-        SoteshopService soteshopService;
+        readonly SoteshopService soteshopService;
 
         public SettingsViewModel(TicketService ticketService, SoteshopService soteshopService)
         {
