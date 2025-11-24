@@ -34,7 +34,7 @@ namespace ZIMAeTicket.Services
                 var fontText = new XFont("Arial", 16);
                 var fontFooter = new XFont("Arial", 12);
                 var qr = XImage.FromStream(qrImage);
-                var logo = XImage.FromFile(await CopyImageFromResourcesAsync("logo.png"));
+                var logo = XImage.FromFile(await CopyImageFromResourcesAsync("logo_zima.png"));
                 var gfx = XGraphics.FromPdfPage(page);
 
                 // Template
