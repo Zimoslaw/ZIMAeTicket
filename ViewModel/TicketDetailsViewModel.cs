@@ -136,6 +136,8 @@ namespace ZIMAeTicket.ViewModel
                 }
 
                 await ticketService.UpdateTicket(Ticket);
+
+                await Shell.Current.DisplayAlert("Wysyłanie biletu", $"Bilet wysłany ponownie do {ResendEmailAddress}", "OK");
             }
             catch (Exception ex)
             {
@@ -146,8 +148,6 @@ namespace ZIMAeTicket.ViewModel
                 mailingService.CloseSMTPConnection();
 
                 IsBusy = false;
-
-                await Shell.Current.DisplayAlert("Wysyłanie biletu", $"Bilet wysłany ponownie do {ResendEmailAddress}", "OK");
             }
         }
 #endif
