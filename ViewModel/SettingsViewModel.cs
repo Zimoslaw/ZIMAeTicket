@@ -130,7 +130,7 @@ namespace ZIMAeTicket.ViewModel
                 Preferences.Default.Set("last_db_sync", QueryDate);
 
                 if (newTicketsCount > 0)
-                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów.", "OK");
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano/zaktualizowano {newTicketsCount} nowych biletów z bazy biletów.", "OK");
                 else
                     await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów. Status API: {soteshopService.StatusMessage}", "OK");
             }

@@ -10,8 +10,14 @@ namespace ZIMAeTicket.Model
     [Table("tickets")]
     public class Ticket
     {
+#if WINDOWS
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; } // Własne ID w bazie biletów
+#endif
+#if ANDROID
+        [PrimaryKey]
+        public int Id { get; set; } // Własne ID w bazie biletów
+#endif
         public int TicketGroupId { get; set; } // ID grupy biletów (ID wydarzenia)
         public int Quantity { get; set; } // Ilość biletów w zamówieniu
         [MaxLength(16)]

@@ -156,7 +156,7 @@ namespace ZIMAeTicket.Services
 
             try
             {
-                result = await conn.InsertAsync(ticket);
+                result = await conn.InsertOrReplaceAsync(ticket);
 
                 StatusMessage = string.Format("{0} record(s) added.", result);
             }
