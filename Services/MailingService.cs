@@ -29,7 +29,6 @@ namespace ZIMAeTicket.Services
         string orderEmail = string.Empty;
         string buyer = string.Empty;
         string eventName = string.Empty;
-        int ticketNo;
 
         public MailingService() 
         {
@@ -70,7 +69,6 @@ namespace ZIMAeTicket.Services
             orderEmail = receiverAddress;
             buyer = receiverName;
             this.eventName = eventName;
-            ticketNo = 1;
 
             MimeMessage.Subject = $"Zamówienie numer: {this.orderId} - Bilety do zamówienia";
             MimeMessage.From.Add(new MailboxAddress("ZIMA - sklep muzyczny", AccessStrings.SMTPUsername));
@@ -537,7 +535,7 @@ ment, so that it will fill 100% of the .container */
         }
 
 #if WINDOWS
-        public async Task<bool> AttatchQRCodeToMessage(string hash)
+        public async Task<bool> AttatchQRCodeToMessage(int ticketId, string hash)
         {
             try
             {
@@ -550,7 +548,7 @@ ment, so that it will fill 100% of the .container */
                 using (MemoryStream ms = new())
                 {
                     qRCodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    pdfTicketBytes = await pdfService.CreateNewPDFTicket(ms, orderId, orderEmail, dateOfOrder, ticketNo++, eventName);
+                    pdfTicketBytes = await pdfService.CreateNewPDFTicket(ms, orderId, orderEmail, dateOfOrder, ticketId, eventName);
                 }
 
                 // Attaching QR code

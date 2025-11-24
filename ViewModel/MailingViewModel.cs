@@ -92,7 +92,7 @@ namespace ZIMAeTicket.ViewModel
                         // Calculate hash value for QR code
                         ticket.CalculateHash();
 
-                        bool attachResult = await mailingService.AttatchQRCodeToMessage(ticket.Hash);
+                        bool attachResult = await mailingService.AttatchQRCodeToMessage(ticket.Id, ticket.Hash);
 
                         if (!attachResult)
                         {

@@ -18,7 +18,7 @@ namespace ZIMAeTicket.Services
         const string title = "Twój bilet na wydarzenie";
         const string subject = "Twój bilet zakupiony na stronie zima.sklep.pl. Zachowaj go i pokaż na wejściu";
 
-        public async Task<byte[]> CreateNewPDFTicket(MemoryStream qrImage, string orderId, string orderEmail, string orderDate, int ticketNo, string eventName = "Wydarzenie")
+        public async Task<byte[]> CreateNewPDFTicket(MemoryStream qrImage, string orderId, string orderEmail, string orderDate, int ticketId, string eventName = "Wydarzenie")
         {
             try
             {
@@ -39,11 +39,14 @@ namespace ZIMAeTicket.Services
 
                 // Template
                 int currentHeight = 72;
-                gfx.DrawString($"Twój bilet nr {ticketNo} na {eventName}", fontHeadline, XBrushes.Black,
+                gfx.DrawString($"Twój bilet na {eventName}", fontHeadline, XBrushes.Black,
                     new XRect(72, currentHeight, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
 
-                gfx.DrawString($"E-mail: {orderEmail}", fontText, XBrushes.Black,
+                gfx.DrawString($"ID #{ticketId}", fontText, XBrushes.Black,
                     new XRect(72, currentHeight += 32, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+
+                gfx.DrawString($"E-mail: {orderEmail}", fontText, XBrushes.Black,
+                    new XRect(72, currentHeight += 24, page.Width.Point, 0), XStringFormats.BaseLineLeft);
 
                 gfx.DrawString($"Zamówienie nr: {orderId}", fontText, XBrushes.Black,
                     new XRect(72, currentHeight += 24, page.Width.Point, 0), XStringFormats.BaseLineLeft);

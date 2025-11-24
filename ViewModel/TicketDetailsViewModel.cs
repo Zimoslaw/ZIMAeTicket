@@ -113,7 +113,7 @@ namespace ZIMAeTicket.ViewModel
 
                 mailingService.InitMessage(Ticket.OrderId, dateOfEmail, Ticket.DateOfOrder, ResendEmailAddress, Ticket.Buyer, ticketGroup.Name);
 
-                bool attachResult = await mailingService.AttatchQRCodeToMessage(Ticket.Hash);
+                bool attachResult = await mailingService.AttatchQRCodeToMessage(Ticket.Id, Ticket.Hash);
                 if (!attachResult)
                 {
                     throw new Exception(mailingService.StatusMessage);
