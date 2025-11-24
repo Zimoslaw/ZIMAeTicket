@@ -5,7 +5,7 @@
              Title="ZIMAeTicket">
     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
         <Image
-            Source="dotnet_bot.png"
+            Source="logo.png"
             HeightRequest="100"
             Aspect="AspectFit"
             SemanticProperties.Description="Logo ZIMAeTicket" />

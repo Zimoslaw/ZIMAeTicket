@@ -31,6 +31,7 @@
         <Entry Text="{Binding SearchPhrase, Mode=TwoWay}" Placeholder="np. jan kowalski" Grid.Row="1" Grid.Column="0" />
 
         <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
+                ImageSource="search.png" MaximumHeightRequest="44"
                 Command="{Binding GetTicketsByPhraseCommand}"
                 IsEnabled="{Binding IsGroupChosen}"/>
 
