@@ -40,10 +40,12 @@
             <Label Text="{Binding IsUsed, Converter={StaticResource UsedBoolConverter}}" Style="{StaticResource Headline}"/>
         </VerticalStackLayout>
         <Button Text="Wykorzystaj bilet" Grid.Row="6" IsEnabled="{Binding IsNotUsed}"
+                ImageSource="ok.png"
                 CommandParameter="{Binding Ticket}"
                 Command="{Binding UseTicketCommand}"
                 IsVisible="{OnPlatform Android=True, WinUI=False}"/>
         <Button Text="Wyślij ponownie na e-mail" Grid.Row="6" IsEnabled="{Binding IsNotUsed}"
+                ImageSource="mail.png"
                 Command="{Binding ResendTicketCommand}"
                 IsVisible="{OnPlatform Android=False, WinUI=True}"/>
         <Entry Text="{Binding Ticket.OrderEmail, Mode=TwoWay}" Grid.Row="7" Placeholder="Adres e-mail do ponownego wysłania" 

@@ -24,6 +24,7 @@
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding DisplayGroupChoicePopUpCommand}"/>
             </HorizontalStackLayout.GestureRecognizers>
+            <Image Source="choice.png" HeightRequest="24" Margin="0, 0, 5, 0"/>
             <Label Text="{Binding ChosenGroupName}" Style="{StaticResource Headline}"/>
         </HorizontalStackLayout>
 
@@ -31,9 +32,10 @@
         <Entry Text="{Binding SearchPhrase, Mode=TwoWay}" Placeholder="np. jan kowalski" Grid.Row="1" Grid.Column="0" />
 
         <Button Text="Szukaj" Grid.Row="1" Grid.Column="1"
-                ImageSource="search.png" MaximumHeightRequest="44"
+                ImageSource="search.png"
                 Command="{Binding GetTicketsByPhraseCommand}"
-                IsEnabled="{Binding IsGroupChosen}"/>
+                IsEnabled="{Binding IsGroupChosen}">
+        </Button>
 
         <CollectionView Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Secondary}"
                         ItemsSource="{Binding Tickets}"

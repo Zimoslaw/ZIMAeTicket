@@ -20,7 +20,7 @@ namespace ZIMAeTicket.ViewModel
         public TicketsViewModel(TicketService ticketService)
         {
             Title = "Lista biletów";
-            ChosenGroupName = "> Wybierz grupę";
+            ChosenGroupName = "Wybierz grupę";
             IsGroupChosen = false;
             this.ticketService = ticketService;
             SearchPhrase = string.Empty;
@@ -43,7 +43,7 @@ namespace ZIMAeTicket.ViewModel
             if (string.IsNullOrEmpty(choice) || choice == "Anuluj")
             {
                 IsGroupChosen = false;
-                ChosenGroupName = "> Wybierz grupę";
+                ChosenGroupName = "Wybierz grupę";
             }    
             else
             {
