@@ -32,7 +32,6 @@
         <Button
                 Text="Skanuj bilet" 
                 ImageSource="qrcode.png"
-                MaximumHeightRequest="44"
                 SemanticProperties.Hint="Przejdź do skanowania kodu QR biletu"
                 IsVisible="{OnPlatform Android=True, WinUI=false}"
                 Clicked="GotoScanQR"
