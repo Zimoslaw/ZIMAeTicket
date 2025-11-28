@@ -1,9 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ZIMAeTicket.Model
 {
@@ -15,8 +10,8 @@ namespace ZIMAeTicket.Model
         [Unique, MaxLength(32)]
         public string Name { get; set; } // Dowolna
 
-        public TicketGroup() 
-        { 
+        public TicketGroup()
+        {
             Name = string.Empty;
         }
 

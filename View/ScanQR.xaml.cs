@@ -13,8 +13,8 @@ public partial class ScanQR : ContentPage
     private static partial Regex HashRegex();
 
     public ScanQR()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         BindingContext = this;
 
@@ -51,13 +51,13 @@ public partial class ScanQR : ContentPage
 
         var result = e.Results.FirstOrDefault();
 
-		if (result == null)
-		{
+        if (result == null)
+        {
             Dispatcher.DispatchAsync(async () =>
                 await Shell.Current.DisplayAlert("Skanowanie biletu", "Brak prawidłowego kodu w obiektywie", "OK"));
             BarcodeReader.BarcodesDetected += OnBarcodesDetected;
             return;
-		}
+        }
 
         // Checking if QR code value is in correct format
         if (!HashRegex().IsMatch(result.Value))

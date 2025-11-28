@@ -44,7 +44,7 @@ namespace ZIMAeTicket.ViewModel
             {
                 IsGroupChosen = false;
                 ChosenGroupName = "Wybierz grupę";
-            }    
+            }
             else
             {
                 IsGroupChosen = true;

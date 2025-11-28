@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using Microsoft.Maui.Controls;
+﻿using System.Globalization;
 
 namespace ZIMAeTicket.Converters
 {
@@ -14,7 +12,7 @@ namespace ZIMAeTicket.Converters
             var words = buyer.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             List<string> maskedWords = new List<string>();
 
-            foreach( string word in words )
+            foreach (string word in words)
             {
                 if (word.Length < 3)
                 {

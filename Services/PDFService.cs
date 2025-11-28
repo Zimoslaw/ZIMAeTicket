@@ -1,15 +1,8 @@
-﻿using Org.BouncyCastle.Utilities;
-using PdfSharp;
+﻿using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ZIMAeTicket.Services
 {
@@ -66,11 +59,11 @@ namespace ZIMAeTicket.Services
                 gfx.DrawImage(logo, 247, 610, 100, 100); // Logo
 
                 // Template footer
-                gfx.DrawString("ZIMA Firma Fonograficzno-Handlowa", 
+                gfx.DrawString("ZIMA Firma Fonograficzno-Handlowa",
                     fontFooter, XBrushes.Black, new XRect(72, 730, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
-                gfx.DrawString("ul. Bankowa 1/9 44-100 Gliwice", 
+                gfx.DrawString("ul. Bankowa 1/9 44-100 Gliwice",
                     fontFooter, XBrushes.Black, new XRect(72, 744, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
-                gfx.DrawString("https://zima.sklep.pl", 
+                gfx.DrawString("https://zima.sklep.pl",
                     fontFooter, XBrushes.Black, new XRect(72, 756, page.Width.Point - 144, 0), XStringFormats.BaseLineCenter);
 
                 // Saving PDF to bytes

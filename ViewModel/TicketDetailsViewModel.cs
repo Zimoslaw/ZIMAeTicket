@@ -1,5 +1,4 @@
-﻿using System.IO.Pipelines;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using ZIMAeTicket.Services;
 
 namespace ZIMAeTicket.ViewModel
@@ -22,7 +21,7 @@ namespace ZIMAeTicket.ViewModel
 #endif
 
         readonly TicketService ticketService;
-        
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotUsed))]
         public bool isUsed;

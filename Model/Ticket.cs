@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿using SQLite;
 
 namespace ZIMAeTicket.Model
 {
@@ -23,7 +18,7 @@ namespace ZIMAeTicket.Model
         [MaxLength(16)]
         public string OrderId { get; set; } // Numer zamówienia Soteshop
         public string OrderEmail { get; set; } // E-mail klienta z zamówienia
-        public string Buyer {  get; set; } // Imie i Nazwisko klienta
+        public string Buyer { get; set; } // Imie i Nazwisko klienta
         [MaxLength(19)]
         public string DateOfOrder { get; set; } // Data złożenia zamówienia
         [MaxLength(19)]
@@ -34,7 +29,7 @@ namespace ZIMAeTicket.Model
         public string DateOfUsing { get; set; } = string.Empty; // Data wykorzystania biletu
         public bool Used { get; set; } // Czy bilet został wykorzystany
         [MaxLength(64)]
-        public string Hash {  get; set; } = string.Empty; // Skrót biletu dla kodu QR
+        public string Hash { get; set; } = string.Empty; // Skrót biletu dla kodu QR
 
         public Ticket()
         {
@@ -66,7 +61,7 @@ namespace ZIMAeTicket.Model
             Buyer = buyer ?? throw new ArgumentNullException(nameof(buyer));
             DateOfOrder = dateOfOrder ?? throw new ArgumentNullException(nameof(dateOfOrder));
             DateOfPayment = dateOfPayment ?? throw new ArgumentNullException(nameof(dateOfPayment));
-            DateOfEmail = dateOfEmail ?? throw new ArgumentNullException( nameof(dateOfEmail));
+            DateOfEmail = dateOfEmail ?? throw new ArgumentNullException(nameof(dateOfEmail));
             Hash = hash ?? throw new ArgumentNullException(nameof(hash));
         }
 

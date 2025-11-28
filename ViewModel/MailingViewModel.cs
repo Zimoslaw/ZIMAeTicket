@@ -1,8 +1,4 @@
-﻿using System.Drawing;
-using ZIMAeTicket.Services;
-using MailKit.Net.Smtp;
-using MimeKit;
-using QRCoder;
+﻿using ZIMAeTicket.Services;
 
 namespace ZIMAeTicket.ViewModel
 {

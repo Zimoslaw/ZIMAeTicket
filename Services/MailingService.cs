@@ -14,7 +14,7 @@ namespace ZIMAeTicket.Services
 
         public MimeMessage MimeMessage { get; set; }
 
-        public BodyBuilder BodyBuilder {  get; set; }
+        public BodyBuilder BodyBuilder { get; set; }
 
         // QR
         readonly QRCodeGenerator qrCodeGenerator;
@@ -30,7 +30,7 @@ namespace ZIMAeTicket.Services
         string buyer = string.Empty;
         string eventName = string.Empty;
 
-        public MailingService() 
+        public MailingService()
         {
             qrCodeGenerator = new QRCodeGenerator();
             pdfService = new PDFService();

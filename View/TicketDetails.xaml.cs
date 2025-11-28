@@ -5,10 +5,10 @@ public partial class TicketDetails : ContentPage
     private readonly TicketDetailsViewModel viewModel;
 
     public TicketDetails(TicketDetailsViewModel viewModel)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         this.viewModel = viewModel;
-		BindingContext = viewModel;
+        BindingContext = viewModel;
     }
 
     protected override void OnAppearing()

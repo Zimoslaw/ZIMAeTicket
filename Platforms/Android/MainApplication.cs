@@ -3,7 +3,7 @@ using Android.Runtime;
 
 namespace ZIMAeTicket
 {
-    [Application (UsesCleartextTraffic = true)]
+    [Application(UsesCleartextTraffic = true)]
     public class MainApplication : MauiApplication
     {
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)

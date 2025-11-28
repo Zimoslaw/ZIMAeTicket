@@ -5,8 +5,8 @@ public partial class Mailing : ContentPage
     private readonly MailingViewModel viewModel;
 
     public Mailing(MailingViewModel viewModel)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = viewModel;
         this.viewModel = viewModel;
     }
