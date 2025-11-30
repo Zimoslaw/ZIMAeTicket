@@ -9,10 +9,10 @@
         <Label Text="Biletów do wysłania:" Style="{StaticResource SubHeadline}" Margin="0, 10, 0, 0" />
         <Label Text="{Binding PendingTicketsCount}" Style="{StaticResource Headline}" Margin="0, 0, 0, 10" />
         <HorizontalStackLayout>
-            <Button Text="Wyślij bilety do klientów" IsEnabled="{Binding IsNotBusy}" Command="{Binding SendTicketsByEmailCommand}" Margin="10"/>
-            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+            <Button Text="Wyślij bilety do klientów" IsEnabled="{Binding IsNotBusy}" Command="{Binding SendTicketsByEmailCommand}"/>
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Margin="10, 0, 0, 0"/>
         </HorizontalStackLayout>
-        <ProgressBar IsVisible="{Binding IsBusy}" Progress="{Binding SendingProgress}" Margin="10"/>
+        <ProgressBar IsVisible="{Binding IsBusy}" Progress="{Binding SendingProgress}" Margin="0, 20, 0, 10"/>
         <HorizontalStackLayout IsVisible="{Binding IsBusy}" HorizontalOptions="Center">
             <Label Text="{Binding SentTicketsCount}" Style="{StaticResource SubHeadline}" />
             <Label Text="/" Style="{StaticResource SubHeadline}" />
