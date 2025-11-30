@@ -163,8 +163,11 @@ namespace ZIMAeTicket.ViewModel
                 Preferences.Default.Set("pending_tickets", 0);
                 Preferences.Default.Set("last_db_sync", DateTime.MinValue);
                 Preferences.Default.Set("last_mailing", DateTime.MinValue.ToString());
+                Preferences.Default.Set("IsReset", true);
 
                 await Shell.Current.DisplayAlert("Resetowanie", $"Usunięto grup: {clearTicketGroupResult}\nUsunięto biletów: {clearTicketsResult}", "OK");
+
+                await Shell.Current.GoToAsync("//LoginPage");
             }
             catch (Exception ex)
             {

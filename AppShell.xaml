@@ -5,6 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:view="clr-namespace:ZIMAeTicket.View">
 
+    <ShellContent
+    ContentTemplate="{DataTemplate view:LoginPage}"
+    Route="LoginPage" />
+
     <TabBar>
         <Tab Title="Home" Icon="logo_zima.png">
             <ShellContent
@@ -31,11 +35,5 @@
                 ContentTemplate="{DataTemplate view:Settings}"
                 Route="Settings" />
         </Tab>
-
     </TabBar>
-    
-    
-    
-    
-
 </Shell>
