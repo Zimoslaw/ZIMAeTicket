@@ -156,8 +156,12 @@ namespace ZIMAeTicket.Services
 
             try
             {
+#if ANDROID
                 result = await conn.InsertOrReplaceAsync(ticket);
-
+#endif
+#if WINDOWS
+                result = await conn.InsertAsync(ticket);
+#endif
                 StatusMessage = string.Format("{0} record(s) added.", result);
             }
             catch (Exception ex)
