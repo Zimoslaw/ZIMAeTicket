@@ -23,8 +23,6 @@ namespace ZIMAeTicket
 #endif
 
             builder.Services.AddSingleton<TicketService>();
-
-            builder.Services.AddSingleton<SoteshopService>();
 #if WINDOWS
             builder.Services.AddSingleton<MailingService>();
 #endif

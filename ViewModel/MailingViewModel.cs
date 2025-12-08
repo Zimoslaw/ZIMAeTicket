@@ -17,14 +17,12 @@ namespace ZIMAeTicket.ViewModel
         public string lastMailingDateTime;
 
         readonly TicketService ticketService;
-        readonly SoteshopService soteshopService;
         readonly MailingService mailingService;
 
-        public MailingViewModel(TicketService ticketService, SoteshopService soteshopService, MailingService mailingService)
+        public MailingViewModel(TicketService ticketService, MailingService mailingService)
         {
             Title = "Wyślij bilety";
             this.ticketService = ticketService;
-            this.soteshopService = soteshopService;
             this.mailingService = mailingService;
 
             lastMailingDateTime = DateTime.MinValue.ToString();
@@ -108,7 +106,7 @@ namespace ZIMAeTicket.ViewModel
                         ticket.DateOfEmail = dateOfEmail;
 
                         // Putting sent ticket into db table with ready to download and scan tickets
-                        bool putResult = await soteshopService.PutTicketIntoRemoteDatabase(ticket);
+                        bool putResult = await SoteshopService.PutTicketIntoRemoteDatabase(ticket);
 
                         if (putResult)
                         {

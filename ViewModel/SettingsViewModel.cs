@@ -9,13 +9,10 @@ namespace ZIMAeTicket.ViewModel
 
         readonly TicketService ticketService;
 
-        readonly SoteshopService soteshopService;
-
-        public SettingsViewModel(TicketService ticketService, SoteshopService soteshopService)
+        public SettingsViewModel(TicketService ticketService)
         {
             Title = "Opcje";
             this.ticketService = ticketService;
-            this.soteshopService = soteshopService;
         }
 
         [RelayCommand]
@@ -50,7 +47,7 @@ namespace ZIMAeTicket.ViewModel
 
                 foreach (TicketGroup group in groups)
                 {
-                    List<Ticket> tickets = await soteshopService.GetTicketsFromShopByDate(group.Id, QueryDate);
+                    List<Ticket> tickets = await SoteshopService.GetTicketsFromShopByDate(group.Id, QueryDate);
 
                     foreach (Ticket ticket in tickets)
                     {
@@ -78,7 +75,7 @@ namespace ZIMAeTicket.ViewModel
                 if (newTicketsCount > 0)
                     await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu.", "OK");
                 else
-                    await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status API: {soteshopService.StatusMessage}", "OK");
+                    await Shell.Current.DisplayAlert("Pobieranie biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy danych sklepu. Status API: {SoteshopService.StatusMessage}", "OK");
             }
             catch (Exception ex)
             {
@@ -114,7 +111,7 @@ namespace ZIMAeTicket.ViewModel
                     return;
                 }
 
-                List<Ticket> tickets = await soteshopService.GetTicketsByDate(QueryDate);
+                List<Ticket> tickets = await SoteshopService.GetTicketsByDate(QueryDate);
 
                 foreach (Ticket ticket in tickets)
                 {
@@ -132,7 +129,7 @@ namespace ZIMAeTicket.ViewModel
                 if (newTicketsCount > 0)
                     await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano/zaktualizowano {newTicketsCount} nowych biletów z bazy biletów.", "OK");
                 else
-                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów. Status API: {soteshopService.StatusMessage}", "OK");
+                    await Shell.Current.DisplayAlert("Synchronizowanie bazy biletów", $"Pobrano {newTicketsCount} nowych biletów z bazy biletów. Status API: {SoteshopService.StatusMessage}", "OK");
             }
             catch (Exception ex)
             {

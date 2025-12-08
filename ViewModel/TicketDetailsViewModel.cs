@@ -17,7 +17,6 @@ namespace ZIMAeTicket.ViewModel
         private static partial Regex EmailAddressRegex();
 
         readonly MailingService mailingService;
-        readonly SoteshopService soteshopService;
 #endif
 
         readonly TicketService ticketService;
@@ -29,12 +28,11 @@ namespace ZIMAeTicket.ViewModel
         public bool IsNotUsed => !IsUsed;
 
 #if WINDOWS
-        public TicketDetailsViewModel(TicketService ticketService, MailingService mailingService, SoteshopService soteshopService)
+        public TicketDetailsViewModel(TicketService ticketService, MailingService mailingService)
         {
             Title = $"Szczegóły biletu";
             this.ticketService = ticketService;
             this.mailingService = mailingService;
-            this.soteshopService = soteshopService;
 
             ResendEmailAddress = string.Empty;
         }
@@ -127,11 +125,11 @@ namespace ZIMAeTicket.ViewModel
                 Ticket.DateOfEmail = dateOfEmail;
 
                 // Putting sent ticket into db table with ready to download and scan tickets
-                bool putResult = await soteshopService.PutTicketIntoRemoteDatabase(Ticket);
+                bool putResult = await SoteshopService.PutTicketIntoRemoteDatabase(Ticket);
 
                 if (!putResult)
                 {
-                    throw new Exception(soteshopService.StatusMessage);
+                    throw new Exception(SoteshopService.StatusMessage);
                 }
 
                 await ticketService.UpdateTicket(Ticket);

@@ -2,27 +2,32 @@
 
 namespace ZIMAeTicket.Services
 {
-    public partial class SoteshopService
+    public static class SoteshopService
     {
-        readonly HttpClient _httpClient;
+        readonly static HttpClient _httpClient = new();
 
-        readonly JsonSerializerOptions _jsonDeserializeOptions;
+        readonly static JsonSerializerOptions _jsonDeserializeOptions;
 
-        public string StatusMessage { get; set; }
-        public SoteshopService()
+        public static string StatusMessage { get; set; }
+
+        static SoteshopService()
         {
-
-            _httpClient = new();
-
             _jsonDeserializeOptions = new()
             {
                 PropertyNameCaseInsensitive = true,
             };
 
+#if WINDOWS
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "ZIMAeTicket (Win) v" + AppInfo.Current.VersionString);
+#endif
+#if ANDROID
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "ZIMAeTicket (And) v" + AppInfo.Current.VersionString);
+#endif
+
             StatusMessage = "Initialized";
         }
 
-        public async Task<List<Ticket>> GetTicketsFromShopByDate(int productId, DateTime dateFrom)
+        public static async Task<List<Ticket>> GetTicketsFromShopByDate(int productId, DateTime dateFrom)
         {
             try
             {
@@ -52,7 +57,7 @@ namespace ZIMAeTicket.Services
             }
         }
 
-        public async Task<bool> PutTicketIntoRemoteDatabase(Ticket ticket)
+        public static async Task<bool> PutTicketIntoRemoteDatabase(Ticket ticket)
         {
             try
             {
@@ -88,7 +93,7 @@ namespace ZIMAeTicket.Services
             }
         }
 
-        public async Task<List<Ticket>> GetTicketsByDate(DateTime dateFrom)
+        public static async Task<List<Ticket>> GetTicketsByDate(DateTime dateFrom)
         {
             try
             {
