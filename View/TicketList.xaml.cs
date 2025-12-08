@@ -11,7 +11,7 @@ public partial class TicketList : ContentPage
         this.viewModel = viewModel;
     }
 
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
     }
