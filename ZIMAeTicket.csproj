@@ -41,32 +41,32 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+		<ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
+		<ApplicationDisplayVersion>1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+		<ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
+		<ApplicationDisplayVersion>1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+		<ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
+		<ApplicationDisplayVersion>1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+		<ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
+		<ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+		<ApplicationId>com.jakubniewiarowski.zimaeticket</ApplicationId>
+		<ApplicationDisplayVersion>1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
-	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -78,7 +78,7 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		
+
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
@@ -87,8 +87,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Raw\logo_zima.png" />
-	  <MauiImage Include="Resources\Raw\logo.png" />
+		<MauiImage Include="Resources\Raw\logo_zima.png" />
+		<MauiImage Include="Resources\Raw\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -103,30 +103,30 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="View\Help.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\LoginPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\Mailing.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\NewTicketGroup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\ScanQR.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\Settings.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\TicketDetails.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\TicketList.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="View\Help.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\LoginPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\Mailing.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\NewTicketGroup.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\ScanQR.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\Settings.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\TicketDetails.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\TicketList.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>
