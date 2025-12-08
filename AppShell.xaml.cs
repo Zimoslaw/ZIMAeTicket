@@ -4,7 +4,6 @@ namespace ZIMAeTicket
 {
     public partial class AppShell : Shell
     {
-        bool loginRequired;
 
         public AppShell()
         {
