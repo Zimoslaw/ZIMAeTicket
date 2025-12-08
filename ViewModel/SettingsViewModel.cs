@@ -22,6 +22,12 @@ namespace ZIMAeTicket.ViewModel
         }
 
         [RelayCommand]
+        async Task GoToHelp()
+        {
+            await Shell.Current.GoToAsync("Help");
+        }
+
+        [RelayCommand]
         async Task GetTicketsFromShop()
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;

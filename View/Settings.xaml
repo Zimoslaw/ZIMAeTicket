@@ -18,7 +18,7 @@
                 </HorizontalStackLayout>
             </VerticalStackLayout>
             <Button Text="Dodaj nową grupę biletów" ImageSource="add.png" Command="{Binding GoToNewTicketGroupCommand}"/>
-            <Button Text="Pomoc"/>
+            <Button Text="Pomoc" Command="{Binding GoToHelpCommand}"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" VerticalOptions="End" Margin="10, 0, 10, 40">
             <Button Text="Resetowanie aplikacji" MaximumHeightRequest="64" Grid.Row="2" Command="{Binding ResetApplicationCommand}" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource Gray600}"/>

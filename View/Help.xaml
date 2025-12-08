@@ -2,10 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ZIMAeTicket.View.Help"
-             Title="Help">
-    <VerticalStackLayout>
-        <Label Text="Dolna belka to menu nawigacyjne aplikacji."/>
-        <Label Text='Przejdź do "Lista", aby wyszukać konkretny bilet/y.'/>
-        <Label Text='Przejdź do "Skanuj", aby uruchomić skaner kodów QR.'/>
-    </VerticalStackLayout>
+             Title="Pomoc">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Margin="10">
+            <VerticalStackLayout Spacing="10">
+                <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Nawigacja"/>
+                <Label Style="{StaticResource HelpParagraph}" Text="Dolna belka to menu nawigacyjne aplikacji."/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Przejdź do "Skanuj", aby uruchomić skaner kodów QR.' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Przejdź do "Lista", aby wyszukać konkretny bilet/y.'/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Przejdź do "Mailing", aby wysłać bilety do klientów.' IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Przejdź do "Opcje", aby pobrać bilety ze sklepu lub dodać nową grupę biletów (nowe wydarzenie).' IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Przejdź do "Opcje", aby zsynchronizować bazę danych biletów lub dodać nową grupę biletów (nowe wydarzenie).' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Aby się cofnąć do poprzedniego widoku, użyj strzałki w lewym górnym rogu lub opcji cofnięcia na twoim smartfonie'/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Dodanie wydarzenia"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='1. W "Opcje" kliknij "Dodaj nową grupę biletów".'/>
+                <Image Source="help_add_new_ticket_group.png"
+                       MaximumHeightRequest="300"
+                       Aspect="AspectFit"
+                       Margin="10, 0"
+                       Shadow="4 4 4 grey"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='2. Wpisz dowolną nazwę grupy (wydarzenia). Nazwa ta będzie używana w identyfikacji przynalezności biletów do wydarzenia oraz w PDFie biletu.'/>
+                <Label Style="{StaticResource HelpParagraph}" Text='3. Wpisz identyfikator produktu, z bazy danych sklepu, który jest biletem zamawianym przez klientów na to zamówienie. Po tym ID bilety będą wyszukiwane w zamówieniach.'/>
+                <Label Style="{StaticResource HelpParagraph}" Text='4. Kliknij "Dodaj".'/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Pobieranie biletów" IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+                <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Synchronizacja biletów" IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='1. W "Opcje" Wybierz datę.' />
+                <Label Style="{StaticResource HelpParagraph}" Text='2. Kliknij "Pobierz bilety ze sklepu".' IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='2. Kliknij "Synchronizuj bazę biletów".' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Z zamówień w sklepie, od wybranej daty do teraz, zostaną pobrane wszystkie bilety (tylko te, które nie zostały jeszcze pobrane).' IsVisible="{OnPlatform Android=False, WinUI=True}"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='Wszystkie bilety wysłane po wybranej dacie zostaną pobrane do lokalnej bazy danych aplikacji.' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

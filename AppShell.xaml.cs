@@ -15,6 +15,8 @@ namespace ZIMAeTicket
 
             Routing.RegisterRoute("NewTicketGroup", typeof(View.NewTicketGroup));
 
+            Routing.RegisterRoute("Help", typeof(View.Help));
+
             Routing.RegisterRoute("ScanQR", typeof(View.ScanQR));
         }
     }
