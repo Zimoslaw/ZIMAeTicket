@@ -43,4 +43,6 @@
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
+    <Shadow x:Key="PrimaryShadow" Offset="4, 4" Radius="4" Brush="{StaticResource Gray600}"/>
+
 </ResourceDictionary>

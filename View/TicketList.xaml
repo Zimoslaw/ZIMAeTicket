@@ -43,7 +43,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Ticket">
-                    <Border Margin="0, 0, 10, 0" Padding="10" Stroke="{StaticResource Gray100}" Shadow="2 2 4 gray" BackgroundColor="{StaticResource White}">
+                    <Border Margin="0, 0, 0, 10" Padding="10" Stroke="{StaticResource Gray100}" Shadow="{StaticResource PrimaryShadow}" BackgroundColor="{StaticResource White}">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding .}"
                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TicketsViewModel}}, Path=GoToDetailsCommand}"/>
