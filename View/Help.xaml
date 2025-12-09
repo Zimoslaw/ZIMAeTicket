@@ -19,11 +19,7 @@
             <VerticalStackLayout Spacing="10">
                 <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Dodanie wydarzenia"/>
                 <Label Style="{StaticResource HelpParagraph}" Text='1. W "Opcje" kliknij "Dodaj nową grupę biletów".'/>
-                <Image Source="help_add_new_ticket_group.png"
-                       MaximumHeightRequest="300"
-                       Aspect="AspectFit"
-                       Margin="10, 0"
-                       Shadow="4 4 4 grey"/>
+                <Image Style="{StaticResource HelpImage}" Source="help_add_new_ticket_group.png" />
                 <Label Style="{StaticResource HelpParagraph}" Text='2. Wpisz dowolną nazwę grupy (wydarzenia). Nazwa ta będzie używana w identyfikacji przynalezności biletów do wydarzenia oraz w PDFie biletu.'/>
                 <Label Style="{StaticResource HelpParagraph}" Text='3. Wpisz identyfikator produktu, z bazy danych sklepu, który jest biletem zamawianym przez klientów na to zamówienie. Po tym ID bilety będą wyszukiwane w zamówieniach.'/>
                 <Label Style="{StaticResource HelpParagraph}" Text='4. Kliknij "Dodaj".'/>
@@ -37,6 +33,16 @@
                 <Label Style="{StaticResource HelpParagraph}" Text='2. Kliknij "Synchronizuj bazę biletów".' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
                 <Label Style="{StaticResource HelpParagraph}" Text='Z zamówień w sklepie, od wybranej daty do teraz, zostaną pobrane wszystkie bilety (tylko te, które nie zostały jeszcze pobrane).' IsVisible="{OnPlatform Android=False, WinUI=True}"/>
                 <Label Style="{StaticResource HelpParagraph}" Text='Wszystkie bilety wysłane po wybranej dacie zostaną pobrane do lokalnej bazy danych aplikacji.' IsVisible="{OnPlatform Android=True, WinUI=False}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10" IsVisible="{OnPlatform Android=True, WinUI=False}">
+                <Label Style="{StaticResource Headline}" HorizontalOptions="Start" Text="Skanowanie biletów"/>
+                <Label Style="{StaticResource HelpParagraph}" Text='1. Przejdź do "Skanuj".' />
+                <Label Style="{StaticResource HelpParagraph}" Text='2. Nakieruj aparat smartfona na kod QR biletu.' />
+                <Label Style="{StaticResource HelpParagraph}" Text='Im bliżej kodu QR ustawimy aparat, tym szybciej zostanie on zeskanowany.' />
+                <Label Style="{StaticResource HelpParagraph}" Text='3. Po kilku sekundach pojawi się widok szczegółów danego biletu.' />
+                <Label Style="{StaticResource HelpParagraph}" Text='Bilet musi zostać najpierw zsynchronizowany do lokalnej bazy danych smartfona aby mógł zostać znaleziony przy skanowaniu.' />
+                <Label Style="{StaticResource HelpParagraph}" Text='Jeżeli wystepuje problem ze zeskanowaniem kodu, bilet można także znaleźć po imieniu i nazwisku kupującego w zakładce "Lista".' />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
